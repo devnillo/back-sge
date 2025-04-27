@@ -13,6 +13,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('password')->nullable();
+            $table->string('code');
+            $table->string('dependencia');
             $table->foreignId('admin_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });

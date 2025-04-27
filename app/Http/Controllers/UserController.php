@@ -9,8 +9,9 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
-    
-    public function register(Request $request){
+
+    public function register(Request $request)
+    {
 
         $credentials = $request->validate([
             'name' => 'required|string|max:255',
@@ -24,7 +25,7 @@ class UserController extends Controller
             'email.unique' => 'Email já cadastrado',
             'password.required' => 'Senha é obrigatória',
         ]);
-        if($credentials){
+        if ($credentials) {
             try {
                 $user = User::create([
                     'name' => $credentials['name'],
@@ -43,10 +44,9 @@ class UserController extends Controller
                 ], 401);
             }
         }
-        
     }
 
-    
+
 
     protected function respondWithToken($token)
     {

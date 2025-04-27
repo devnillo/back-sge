@@ -20,7 +20,7 @@ class AuthController extends Controller
 
         if ($token = auth()->attempt($credentials)) {
             // $request->session()->regenerate();
-            
+
             return response()->json([
                 'success' => true,
                 'user' => auth()->user(),
@@ -29,16 +29,17 @@ class AuthController extends Controller
             ]);
         }
         return response()->json(['error' => 'Unauthorized'], 401);
-
     }
 
-    public function check(Request $request)
+    public function check()
     {
         return response()->json(['status' => 'ok']);
     }
     public function refresh(Request $request)
-    {   
+    {
         try {
+            $token = auth('api')->refresh();
+            $this->check();
             return $this->respondWithToken(auth('api')->refresh());
         } catch (JWTException $th) {
             return response()->json(['error' => 'Token não redrhs'], 401);
