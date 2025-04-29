@@ -12,6 +12,6 @@ Route::prefix('/escolas')->group(function () {
     Route::post('/register', [EscolaController::class, 'register']);
     Route::get('/all/{id}', [EscolaController::class, 'all']);
     Route::get('/{id}', [EscolaController::class, 'show']);
-    Route::put('/{id}', [EscolaController::class, 'update']);
+    Route::post('/editar/{id}', [EscolaController::class, 'update']);
 });
 ?>

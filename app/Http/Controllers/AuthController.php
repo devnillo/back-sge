@@ -39,8 +39,7 @@ class AuthController extends Controller
     {
         try {
             $token = auth('api')->refresh();
-            $this->check();
-            return $this->respondWithToken(auth('api')->refresh());
+            return $this->respondWithToken($token);
         } catch (JWTException $th) {
             return response()->json(['error' => 'Token não redrhs'], 401);
         }
