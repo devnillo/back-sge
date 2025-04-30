@@ -10,10 +10,17 @@ return new class extends Migration
     {
         Schema::create('escolas', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email');
+            $table->string('nome')->nullable();
+            $table->string('codigo');
+            $table->string('municipio');
+            $table->string('distrito');
+            $table->string('bairro')->nullable();
+            $table->string('cep');
+            $table->string('endereco');
+            $table->string('numero')->nullable();
+            $table->string('complemento')->nullable();
+            $table->string('email')->nullable();
             $table->string('password')->nullable();
-            $table->string('code');
             $table->string('dependencia');
             $table->foreignId('admin_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();

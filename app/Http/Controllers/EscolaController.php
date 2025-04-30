@@ -18,21 +18,36 @@ class EscolaController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $credentials = $request->validate(
+            $validated = $request->validate(
                 [
-                    'name' => 'required|string|max:255',
-                    'email' => 'required|email|unique:escolas,email,' . $request->id, 
-                ],
-                [
-                    'name.required' => 'Nome é obrigatório',
-                    'email.required' => 'Email é obrigatório',
-                    'email.email' => 'Informe um email válido',
+                    'nome' => 'required|string|max:255|unique:escolas,nome,' . $request->id,
+                    'email' => 'required|email|max:255|unique:escolas,email,' . $request->id,
+                    'codigo' => 'string|max:255',
+                    'municipio' => 'string|max:255',
+                    'distrito' => 'string|max:255',
+                    'bairro' => 'max:255',
+                    'cep' => 'required|string|max:255',
+                    'endereco' => 'required|string|max:255',
+                    'numero' => 'max:255',
+                    'complemento' => 'max:255',
+                    'dependencia' => 'required|string|max:255',
+                    // 'password' => 'required',
                 ]
             );
             $escola = Escola::findOrFail($id);
             $escola->update([
-                'name' => $credentials['name'],
-                'email' => $credentials['email'],
+                'nome' => $validated['nome'],
+                'codigo' => $validated['codigo'],
+                'municipio' => $validated['municipio'],
+                'distrito' => $validated['distrito'],
+                'bairro' => $validated['bairro'],
+                'cep' => $validated['cep'],
+                'endereco' => $validated['endereco'],
+                'numero' => $validated['numero'],
+                'complemento' => $validated['complemento'],
+                'email' => $validated['email'],
+                'dependencia' => $validated['dependencia'],
+
             ]);
             return response()->json([
                 'success' => true,
@@ -76,39 +91,45 @@ class EscolaController extends Controller
         try {
             $validated = $request->validate(
                 [
-                    'name' => 'required|string|max:255|unique:escolas',
-                    'email' => 'required|string|email|max:255|unique:escolas',
-                    'code' => 'required|string|max:255',
+                    'nome' => 'string|max:255|unique:escolas',
+                    'email' => 'string|email|max:255|unique:escolas',
+                    'codigo' => 'string|max:255',
+                    'municipio' => 'string|max:255',
+                    'distrito' => 'string|max:255',
+                    'bairro' => 'max:255',
+                    'cep' => 'required|string|max:255',
+                    'endereco' => 'required|string|max:255',
+                    'numero' => 'max:255',
+                    'complemento' => 'max:255',
                     'dependencia' => 'required|string|max:255',
                     // 'password' => 'required',
                     'admin_id' => 'required',
-                ],
-                [
-                    'name.required' => 'Nome é obrigatório',
-                    'email.required' => 'Email é obrigatório',
-                    'email.unique' => 'Email já cadastrado',
-                    'email.email' => 'Informe um email válido',
-                    'password.required' => 'Senha é obrigatória',
-                    'code.required' => 'Informe um Código',
-                    'code.unique' => 'Email já cadastrado',
                 ]
             );
-            $user = Escola::create([
-                'name' => $validated['name'],
+            $escola = Escola::create([
+                'nome' => $validated['nome'],
+                'codigo' => $validated['codigo'],
+                'municipio' => $validated['municipio'],
+                'distrito' => $validated['distrito'],
+                'bairro' => $validated['bairro'],
+                'cep' => $validated['cep'],
+                'endereco' => $validated['endereco'],
+                'numero' => $validated['numero'],
+                'complemento' => $validated['complemento'],
                 'email' => $validated['email'],
-                'code' => 'aaaaa',
                 'dependencia' => $validated['dependencia'],
                 // 'password' => Hash::make($credentials['password']),
                 'admin_id' => $validated['admin_id'],
             ]);
             return response()->json([
                 'success' => true,
+                'es' => $validated['nome'],
                 'message' => 'Escola cadastrada com sucesso',
             ], 201);
         } catch (ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'message' => $e->errors(),
+                'message' => $validated['cep'],
             ], 422);
         }
     }

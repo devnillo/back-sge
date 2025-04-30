@@ -7,12 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 class Escola extends Model
 {
     protected $fillable = [
-        'dependencia',
-        'name',
+        'nome',
+        'codigo',
+        'municipio',
+        'distrito',
+        'bairro',
+        'cep',
+        'endereco',
+        'numero',
+        'complemento',
         'email',
-        'password',
-        'admin_id',
-        'code',
+        'dependencia',
+        // 'password' => Hash::make($credentials['password']),
+        'admin_id'
     ];
 
     protected $hidden = [
