@@ -8,7 +8,7 @@ class Escola extends Model
 {
     protected $fillable = [
         'nome',
-        'codigo',
+        'inep',
         'municipio',
         'distrito',
         'bairro',
@@ -18,7 +18,7 @@ class Escola extends Model
         'complemento',
         'email',
         'dependencia',
-        // 'password' => Hash::make($credentials['password']),
+        'password',
         'admin_id'
     ];
 
@@ -26,8 +26,12 @@ class Escola extends Model
         'password',
     ];
 
-    public function admin()
+    public function admins()
     {
         return $this->belongsTo(User::class, 'admin_id');
+    }
+    public function users()
+    {
+        return $this->hasMany(User::class);
     }
 }

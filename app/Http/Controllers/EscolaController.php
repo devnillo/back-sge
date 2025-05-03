@@ -83,17 +83,18 @@ class EscolaController extends Controller
         $escolas = Escola::all()->where('admin_id', '=', $id);
         return response()->json([
             'success' => true,
-            'escolas' => $escolas,
+            'escolas' => $escolas->users,
         ], 200);
     }
     public function register(Request $request)
     {
+        $numero = str_pad(mt_rand(0, 99999999), 8, '0', STR_PAD_LEFT);
         try {
             $validated = $request->validate(
                 [
                     'nome' => 'string|max:255|unique:escolas',
                     'email' => 'string|email|max:255|unique:escolas',
-                    'codigo' => 'string|max:255',
+                    'inep' => 'string|max:255',
                     'municipio' => 'string|max:255',
                     'distrito' => 'string|max:255',
                     'bairro' => 'max:255',
@@ -108,7 +109,7 @@ class EscolaController extends Controller
             );
             $escola = Escola::create([
                 'nome' => $validated['nome'],
-                'codigo' => $validated['codigo'],
+                'inep' => $validated['inep'],
                 'municipio' => $validated['municipio'],
                 'distrito' => $validated['distrito'],
                 'bairro' => $validated['bairro'],
@@ -118,7 +119,7 @@ class EscolaController extends Controller
                 'complemento' => $validated['complemento'],
                 'email' => $validated['email'],
                 'dependencia' => $validated['dependencia'],
-                // 'password' => Hash::make($credentials['password']),
+                'password' => Hash::make($numero),
                 'admin_id' => $validated['admin_id'],
             ]);
             return response()->json([

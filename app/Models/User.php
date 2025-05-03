@@ -20,9 +20,13 @@ class User extends Authenticatable implements JWTSubject
         'role'
     ];
 
-   public function escolas()
+    public function escolas()
     {
         return $this->hasMany(Escola::class, 'admin_id');
+    }
+    public function escola()
+    {
+        return $this->belongsTo(Escola::class);
     }
     protected $hidden = [
         'password',

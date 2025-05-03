@@ -14,4 +14,3 @@ Route::prefix('/escolas')->group(function () {
     Route::get('/{id}', [EscolaController::class, 'show']);
     Route::post('/editar/{id}', [EscolaController::class, 'update']);
 });
-?>

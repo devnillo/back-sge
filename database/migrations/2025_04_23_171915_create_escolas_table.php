@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('escolas', function (Blueprint $table) {
             $table->id();
             $table->string('nome')->nullable();
-            $table->string('codigo');
+            $table->string('inep')->nullable();
             $table->string('municipio');
             $table->string('distrito');
             $table->string('bairro')->nullable();
