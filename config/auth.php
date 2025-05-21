@@ -40,7 +40,19 @@ return [
             'driver' => 'jwt',
             'provider' => 'users',
         ],
-],
+        'student' => [
+            'driver' => 'jwt',
+            'provider' => 'students',
+        ],
+        'professor' => [
+            'driver' => 'jwt',
+            'provider' => 'professors',
+        ],
+        'responsible' => [
+            'driver' => 'jwt',
+            'provider' => 'responsibles',
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -63,6 +75,18 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+        'students' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\Student::class),
+        ],
+        'professors' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\Professor::class),
+        ],
+        'responsibles' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\Responsible::class),
         ],
 
         // 'users' => [

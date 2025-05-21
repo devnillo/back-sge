@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends Controller
@@ -17,20 +18,22 @@ class AuthController extends Controller
             'email.email' => 'Informe um email válido',
             'password.required' => 'Senha é obrigatória',
         ]);
-
-        if ($token = auth()->attempt($credentials)) {
-            // $request->session()->regenerate();
-
-            return response()->json([
-                'success' => true,
-                'user' => auth()->user(),
-                'access_token' => $token,
-                'token_type' => 'bearer',
-            ]);
+        try{
+            if ($token = auth()->attempt($credentials)) {
+                // $request->session()->regenerate();
+    
+                return response()->json([
+                    'success' => true,
+                    'user' => auth()->user(),
+                    'access_token' => $token,
+                    'token_type' => 'bearer',
+                ]);
+            }
+        }catch(ValidationException $e){
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
-        return response()->json(['error' => 'Unauthorized'], 401);
+        
     }
-
     public function check()
     {
         return response()->json(['status' => 'ok']);

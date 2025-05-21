@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -12,13 +13,31 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
-    protected $with = ['escolas'];
+    // protected $with = ['roles'];
     protected $fillable = [
         'name',
         'email',
         'password',
-        'role'
+        'secretaria_id',
+        // 'role'
     ];
+    // public function roles()
+    // {
+    //     return $this->belongsToMany(Role::class);
+    // }
+
+    public function secretarias(): BelongsTo
+    {
+        return $this->belongsTo(Secretarias::class, 'secretaria_id');
+    }
+
+
+    public function temPermissao($permissao)
+    {
+        return $this->roles()->whereHas('permissions', function ($q) use ($permissao) {
+            $q->where('nome', $permissao);
+        })->exists();
+    }
 
     public function escolas()
     {
