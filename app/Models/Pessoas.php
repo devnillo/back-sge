@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pessoas extends Model
 {
     protected $fillable = [
-        'pessoas',
+        // 'pessoas',
         'tipo_registro',
         'codigo_escola_inep',
         'codigo_pessoa_fisica_sistema_proprio',
@@ -102,11 +102,12 @@ class Pessoas extends Model
         'educacao_tecnologia_informacao_comunicacao',
         'genero_diversidade_sexual',
         'direitos_crianca_adolescente',
-        'educacao_relacoes_etnico_raciais_historia_afro_brasileira_africana',
+        'educacao_relacoes_etnico_raciais_historia_afro',
         'gestao_escolar',
         'outros',
         'nenhum',
         'endereco_eletronico_email',
+        'escola_id'
     ];
 
     public function escola()

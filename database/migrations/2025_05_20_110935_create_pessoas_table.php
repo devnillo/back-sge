@@ -17,7 +17,7 @@ return new class extends Migration
             $table->char('codigo_escola_inep', 8)->nullable();
             $table->string('codigo_pessoa_fisica_sistema_proprio', 20);
             $table->char('identificacao_unica_inep', 12)->nullable();
-            $table->char('numero_cpf', 11)->nullable();
+            $table->char('numero_cpf', 11);
             $table->string('nome_completo', 100);
             $table->string('data_nascimento', 11);
             $table->char('filiacao', 1);
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->char('cor_raca', 1);
 
             $table->string('role')->nullable();
-            
+
             $table->char('nacionalidade', 1);
             $table->string('pais_nacionalidade', 2);
             $table->char('municipio_nascimento', 7)->nullable();
@@ -117,14 +117,15 @@ return new class extends Migration
             $table->char('educacao_tecnologia_informacao_comunicacao', 1)->nullable();
             $table->char('genero_diversidade_sexual', 1)->nullable();
             $table->char('direitos_crianca_adolescente', 1)->nullable();
-            $table->char('educacao_relacoes_etnico_raciais_historia_afro_brasileira_africana', 1)->nullable();
+            $table->char('educacao_relacoes_etnico_raciais_historia_afro', 1)->nullable();
             $table->char('gestao_escolar', 1)->nullable();
             $table->char('outros', 1)->nullable();
             $table->char('nenhum', 1)->nullable();
 
             $table->string('endereco_eletronico_email', 100)->nullable();
 
-            $table->foreignId('escola_id')->nullable()->constrained('escolas')->onDelete('cascade');
+            $table->unsignedBigInteger('escola_id')->nullable();
+            $table->foreign('escola_id')->references('id')->on('escolas');
 
             $table->timestamps();
         });

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Escola extends Model
 {
+    protected $with = ['pessoas', 'infraestrutura'];
     protected $casts = [
         'vinculo_orgao_educacao' => SimNao::class,
         'vinculo_orgao_seguranca' => SimNao::class,
@@ -93,6 +94,10 @@ class Escola extends Model
     public function users()
     {
         return $this->hasMany(User::class);
+    }
+    public function pessoas()
+    {
+        return $this->hasMany(Pessoas::class);
     }
     public function infraestrutura()
     {

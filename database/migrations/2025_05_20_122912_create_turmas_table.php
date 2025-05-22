@@ -87,13 +87,13 @@ return new class extends Migration
             $table->char('materia_libras', 1)->nullable();
             $table->char('areas_conhecimento_pedagogicas', 1)->nullable();
             $table->char('ensino_religioso', 1)->nullable();
-            $table->char('lingua_indigina', 1)->nullable();
+            $table->char('estudo_lingua_indigina', 1)->nullable();
             $table->char('estudos_sociais', 1)->nullable();
             $table->char('sociologia', 1)->nullable();
             $table->char('literatura_frances', 1)->nullable();
             $table->char('linhua_portuguesa_segunda_lingua', 1)->nullable();
             $table->char('estagio_supervisionado', 1)->nullable();
-            $table->char('projeto_vida', 1)->nullable();
+            $table->char('estudo_projeto_vida', 1)->nullable();
             $table->char('outras_areas_conhecimento)', 1)->nullable();
 
             $table->char('classe_bilingue_surdos', 1)->nullable();

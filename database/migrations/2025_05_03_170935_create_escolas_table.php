@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('tipo_registro')->default('00');
             $table->char('codigo_escola_inep', 8)->unique();
-            $table->string('nome_escola')->max(100);
+            $table->string('nome_escola', 100);
             $table->char('situacao_funcionamento', 1);
             $table->date('data_inicio_ano_letivo')->nullable();
             $table->date('data_termino_ano_letivo')->nullable();
@@ -31,9 +31,9 @@ return new class extends Migration
             $table->string('outro_telefone')->nullable();
             $table->string('email_escola')->nullable();
             $table->string('codigo_orgao_regional')->nullable();
-            $table->string('localizacao_zona')->max(1);
-            $table->string('localizacao_diferenciada')->max(1);
-            $table->string('dependencia_administrativa')->max(1);
+            $table->string('localizacao_zona', 1);
+            $table->string('localizacao_diferenciada', 1);
+            $table->string('dependencia_administrativa', 1);
             $table->string('vinculo_orgao_educacao')->nullable();
             $table->string('vinculo_orgao_seguranca')->nullable();
             $table->string('vinculo_orgao_saude')->nullable();

@@ -16,6 +16,6 @@ class EscolaInfraSeeder extends Seeder
      */
     public function run(): void
     {
-        Escola::factory()->count(5)->create();
+        // Escola::factory()->count(5)->create();
     }
 }
