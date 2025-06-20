@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Escola;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEscolaRequest;
+use App\Http\Requests\UpdateEscolaRequest;
 use App\Http\Resources\EscolaResource;
 use App\Models\Escola;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class EscolaController extends Controller
                 'secretaria_id' => $validated["secretaria_id"],
                 'codigo_escola_inep' => $validated['codigo_escola_inep'],
                 'nome_escola' => $validated['nome_escola'],
-                'situacao_funcionamento' => $validated['situacao_funcionamento'],
+                'situacao_funcionamento' => $validated['situacao_funcionamento'] ?? null,
                 'data_inicio_ano_letivo' => $validated['data_inicio_ano_letivo'] ?? null,
                 'data_termino_ano_letivo' => $validated['data_termino_ano_letivo'] ?? null,
                 'cep' => $validated['cep'],
@@ -33,13 +34,14 @@ class EscolaController extends Controller
                 'bairro' => $validated['bairro'] ?? null,
                 'ddd' => $validated['ddd'] ?? null,
                 'telefone' => $validated['telefone'] ?? null,
-                'localizacao_zona' => $validated['localizacao_zona'],
-                'localizacao_diferenciada' => $validated['localizacao_diferenciada'],
+                'localizacao_zona' => $validated['localizacao_zona'] ?? null,
+                'localizacao_diferenciada' => $validated['localizacao_diferenciada'] ?? null,
                 'dependencia_administrativa' => $validated['dependencia_administrativa'],
                 'outro_telefone' => $validated['outro_telefone'] ?? null,
                 'email_escola' => $validated['email_escola'] ?? null,
-                'escola_indigena' => $validated['escola_indigena'],
-                'educacao_ambiental' => $validated['educacao_ambiental']
+                'escola_indigena' => $validated['escola_indigena'] ?? null,
+                'educacao_ambiental' => $validated['educacao_ambiental'] ?? null,
+                'status' => $validated['status'] ?? null,
             ]);
             return response()->json([
                 'success' => true,
@@ -53,38 +55,23 @@ class EscolaController extends Controller
             ], 422);
         }
     }
-    public function update(Request $request, $id)
+    public function update(UpdateEscolaRequest $request, $id)
     {
         try {
-            $validated = $request->validate(
-                [
-                    'nome' => 'required|string|max:255|unique:escolas,nome,' . $request->id,
-                    'email' => 'required|email|max:255|unique:escolas,email,' . $request->id,
-                    'codigo' => 'string|max:255',
-                    'municipio' => 'string|max:255',
-                    'distrito' => 'string|max:255',
-                    'bairro' => 'max:255',
-                    'cep' => 'required|string|max:255',
-                    'endereco' => 'required|string|max:255',
-                    'numero' => 'max:255',
-                    'complemento' => 'max:255',
-                    'dependencia' => 'required|string|max:255',
-                    // 'password' => 'required',
-                ]
-            );
+            $validated = $request->validated();
             $escola = Escola::findOrFail($id);
             $escola->update([
-                'nome' => $validated['nome'],
-                'codigo' => $validated['codigo'],
-                'municipio' => $validated['municipio'],
-                'distrito' => $validated['distrito'],
-                'bairro' => $validated['bairro'],
-                'cep' => $validated['cep'],
-                'endereco' => $validated['endereco'],
-                'numero' => $validated['numero'],
-                'complemento' => $validated['complemento'],
-                'email' => $validated['email'],
-                'dependencia' => $validated['dependencia'],
+                'nome_escola' => $validated['nome_escola'] ?? $escola->nome_escola,
+                'codigo_escola_inep' => $validated['codigo_escola_inep'] ?? $escola->codigo_escola_inep,
+                'municipio_codigo' => $validated['municipio_codigo'] ?? $escola->municipio_codigo,
+                'distrito_codigo' => $validated['distrito_codigo'] ?? $escola->distrito_codigo,
+                'bairro' => $validated['bairro'] ?? $escola->bairro,
+                'cep' => $validated['cep'] ?? $escola->cep,
+                'endereco' => $validated['endereco'] ?? $escola->endereco,
+                'numero' => $validated['numero'] ?? $escola->numero,
+                'complemento' => $validated['complemento'] ?? $escola->complemento,
+                'email_escola' => $validated['email_escola'] ?? $escola->email_escola,
+                'dependencia_administrativa' => $validated['dependencia_administrativa'] ?? $escola->dependencia_administrativa,
 
             ]);
             return response()->json([
@@ -99,7 +86,7 @@ class EscolaController extends Controller
             ], 422);
         }
     }
-    public function getAll($id)
+    public function getAllBySecretaryId($id)
     {
         $escola = Escola::where('secretaria_id', '=', $id)->get();
 

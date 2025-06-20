@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Secretarias extends Model
+class Secretarias extends Authenticatable implements JWTSubject
 {
     // protected $with = ['users'];
     protected $table = 'secretarias';
@@ -13,7 +15,7 @@ class Secretarias extends Model
         'nome',
         'email',
         'telefone',
-        'senha',
+        'password',
         'cidade',
         'estado',
         'cep',
@@ -28,8 +30,22 @@ class Secretarias extends Model
     {
         return $this->hasMany(Escola::class);
     }
-
+    // public function getAuthPassword()
+    // {
+    //     return $this->senha;
+    // }
     protected $hidden = [
         'password',
     ];
+
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
 }

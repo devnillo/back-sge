@@ -12,7 +12,7 @@ class UpdateEscolaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,18 +24,18 @@ class UpdateEscolaRequest extends FormRequest
     {
         $escolaId = $this->route('id');
         return [
-            'tipo_registro' => 'required|string|max:2',
-            'codigo_escola_inep' => ['required', 'string', 'max:8', Rule::unique('escolas', 'codigo_escola_inep')->ignore($escolaId)],
-            'nome_escola' => ['required', 'string', 'max:100', Rule::unique('escolas', 'nome_escola')->ignore($escolaId)],
-            'situacao_funcionamento' => 'required|string|max:2',
+            'tipo_registro' => 'string|max:2',
+            'codigo_escola_inep' => [ 'string', 'max:8', Rule::unique('escolas', 'codigo_escola_inep')->ignore($escolaId)],
+            'nome_escola' => ['string', 'max:100', Rule::unique('escolas', 'nome_escola')->ignore($escolaId)],
+            'situacao_funcionamento' => 'string|max:2',
             'data_inicio_ano_letivo' => 'date',
             'data_termino_ano_letivo' => 'date',
 
-            'cep' => 'required|string|max:8',
-            'municipio_codigo' => 'required|string|max:7',
-            'distrito_codigo' => 'required|string|max:2',
-            'endereco' => 'required|string|max:100',
-            'numero' => 'required|string|max:10',
+            'cep' => 'string|max:8',
+            'municipio_codigo' => 'string|max:7',
+            'distrito_codigo' => 'string|max:2',
+            'endereco' => 'string|max:100',
+            'numero' => 'string|max:10',
             'complemento' => 'string|max:20',
             'bairro' => 'string|max:50',
 
@@ -92,8 +92,9 @@ class UpdateEscolaRequest extends FormRequest
             'codigo_escola_sede_vinculada' => 'string|max:8',
             'codigo_ies_vinculada' => 'string|max:9',
 
-            'secretaria_id' => 'required|integer',
+            'secretaria_id' => 'integer',
             'diretor_id' => 'max:255',
+            'status' => 'string',
         ];
     }
 }

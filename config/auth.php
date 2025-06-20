@@ -52,6 +52,10 @@ return [
             'driver' => 'jwt',
             'provider' => 'responsibles',
         ],
+        'secretaria' => [
+            'driver' => 'jwt',
+            'provider' => 'secretarias',
+        ],
     ],
 
     /*
@@ -76,17 +80,21 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
-        'students' => [
+        // 'students' => [
+        //     'driver' => 'eloquent',
+        //     'model' => env('AUTH_MODEL', App\Models\Student::class),
+        // ],
+        // 'professors' => [
+        //     'driver' => 'eloquent',
+        //     'model' => env('AUTH_MODEL', App\Models\Professor::class),
+        // ],
+        // 'responsibles' => [
+        //     'driver' => 'eloquent',
+        //     'model' => env('AUTH_MODEL', App\Models\Responsible::class),
+        // ],
+        'secretarias' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\Student::class),
-        ],
-        'professors' => [
-            'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\Professor::class),
-        ],
-        'responsibles' => [
-            'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\Responsible::class),
+            'model' => env('AUTH_MODEL', App\Models\Secretarias::class),
         ],
 
         // 'users' => [

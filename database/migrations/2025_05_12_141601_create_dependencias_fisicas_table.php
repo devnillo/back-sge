@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dependencias_fisicas', function (Blueprint $table) {
+        Schema::create('dependencias_fisica', function (Blueprint $table) {
             $table->id();
             $table->char('dep_almoxarifado', 1);
             $table->char('dep_area_vegetacao_gramado', 1);
@@ -63,6 +63,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dependencias__fisicas');
+        Schema::dropIfExists('dependencias_fisica');
     }
 };

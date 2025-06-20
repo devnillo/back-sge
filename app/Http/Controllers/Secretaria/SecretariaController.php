@@ -7,6 +7,7 @@ use App\Models\Escola;
 use App\Models\Secretarias;
 use Error;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class SecretariaController extends Controller
@@ -65,7 +66,7 @@ class SecretariaController extends Controller
                     'nome' => 'required|string|max:255|unique:secretarias',
                     'email' => 'required|string|email|max:255|unique:secretarias',
                     'telefone' => 'string|max:255',
-                    'senha' => 'required|string|max:255',
+                    'password' => 'required|string|max:255',
                     'cidade' => 'required|string|max:255',
                     'estado' => 'required|string|max:255',
                     'cep' => 'required|string|max:255',
@@ -76,7 +77,7 @@ class SecretariaController extends Controller
                 'nome' => $validated['nome'],
                 'email' => $validated['email'],
                 'telefone' => $validated['telefone'],
-                'senha' => $validated['senha'],
+                'password' => Hash::make($validated['password']),
                 'cidade' => $validated['cidade'],
                 'estado' => $validated['estado'],
                 'cep' => $validated['cep'],
@@ -93,6 +94,35 @@ class SecretariaController extends Controller
                 'errors' => $e->errors(),
                 'message' => 'Erro ao cadastrar escola',
             ], 422);
+        }
+    }
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string',
+        ], [
+            'email.required' => 'Email é obrigatório',
+            'email.email' => 'Informe um email válido',
+            'password.required' => 'Senha é obrigatória',
+        ]);
+        try{
+            if ($token = auth('secretaria')->attempt($credentials)) {
+                // $request->session()->regenerate();
+    
+                return response()->json([
+                    'success' => true,
+                    'user' => auth('secretaria')->user(),
+                    'access_token' => $token,
+                    'token_type' => 'bearer',
+                ]);
+            }
+            return response()->json([
+                'success' => false,
+                'message' => 'Email ou senha inválidos',
+            ], 401);
+        }catch(ValidationException $e){
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
     }
     public function show($id)

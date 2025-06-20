@@ -71,10 +71,10 @@ return new class extends Migration
             $table->string('codigo_ies_vinculada')->nullable();
             
             
-            $table->char('escola_indigena', 1);
+            $table->char('escola_indigena', 1)->nullable();
             $table->char('exame_selecao_ingresso', 1)->nullable();
             $table->char('ppp_atualizado_ultimos_12_meses', 1)->nullable();
-            $table->char('educacao_ambiental', 1);
+            $table->char('educacao_ambiental', 1)->nullable();
 
             $table->foreignId('secretaria_id')->constrained('secretarias')->onDelete('cascade');
             $table->foreignId('diretor_id')->nullable()->constrained('users');

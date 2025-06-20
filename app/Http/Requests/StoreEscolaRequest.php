@@ -22,22 +22,22 @@ class StoreEscolaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tipo_registro' => 'required|string|max:2',
+            // 'tipo_registro' => 'required|string|max:2',
             'codigo_escola_inep' => 'required|string|max:8|unique:escolas',
             'nome_escola' => 'required|string|max:255|unique:escolas',
-            'situacao_funcionamento' => 'required|string|max:2',
+            'situacao_funcionamento' => 'string|max:2',
             'data_inicio_ano_letivo' => 'date',
             'data_termino_ano_letivo' => 'date',
-            'escola_indigena' => 'required',
-            'educacao_ambiental' => 'required',
+            'escola_indigena' => 'string',
+            'educacao_ambiental' => 'string',
 
             'cep' => 'required|string|max:8',
             'municipio_codigo' => 'required|string|max:7',
             'distrito_codigo' => 'required|string|max:2',
             'endereco' => 'required|string|max:100',
             'numero' => 'required|string|max:10',
-            'complemento' => 'string|max:20',
-            'bairro' => 'string|max:50',
+            'complemento' => 'max:20',
+            'bairro' => 'max:50',
 
             'ddd' => 'string|max:2',
             'telefone' => 'string|max:9',
@@ -94,6 +94,7 @@ class StoreEscolaRequest extends FormRequest
 
             'secretaria_id' => 'required|integer',
             'diretor_id' => 'max:255',
+            'status' => 'string',
         ];
     }
 }

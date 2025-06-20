@@ -64,20 +64,3 @@ class EscolaInfraestruturaController extends Controller
         return response()->json(['oii' => true]);
     }
 }
-// "codigo_escola_inep"
-// "predio_escolar"
-// "salas_em_outra_escola"
-// "galpao_rancho_paiol_barracao"
-// "unidade_atendimento_socioeducativa"
-// "unidade_prisional"
-// "outros_locais_funcionamento"
-// "forma_ocupacao_predio"
-// "predio_compartilhado_outra_escola"
-// "codigo_escola_compartilha_1"
-// "codigo_escola_compartilha_2"
-// "codigo_escola_compartilha_3"
-// "codigo_escola_compartilha_4"
-// "codigo_escola_compartilha_5"
-// "codigo_escola_compartilha_6"
-// "alimentacao_escolar_alunos"
-// "escola_id"

@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('escola_infraestruturas', function (Blueprint $table) {
             $table->id();
+            
+            
+            
+            
+            
+            
             $table->string('tipo_registro')->default("10");
             $table->string('codigo_escola_inep')->max('8');
 
