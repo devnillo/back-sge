@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('equipamentos_ensino_aprendizagems', function (Blueprint $table) {
+        Schema::create('equipamentos_didaticos', function (Blueprint $table) {
             $table->id();
             $table->char('equip_dvd_blu_ray', 1);
             $table->char('equip_som', 1);
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('equipamentos_ensino_aprendizagems');
+        Schema::dropIfExists('equipamentos_didaticos');
     }
 };

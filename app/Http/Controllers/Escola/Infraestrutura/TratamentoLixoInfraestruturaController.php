@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Escola\Infraestrutura;
 
 use App\Http\Controllers\Controller;
-use App\Models\AbastecimentoAgua;
+use App\Models\TratamentoLixo;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -19,7 +19,7 @@ class TratamentoLixoInfraestruturaController extends Controller
                 'tratamento_nao_faz' => "required|max:1",
                 'escola_infra_id' => "required"
             ]);
-            $data = AbastecimentoAgua::create([
+            $data = TratamentoLixo::create([
                 'tratamento_separacao' => $credentials['tratamento_separacao'],
                 'tratamento_reaproveitamento' => $credentials['tratamento_reaproveitamento'],
                 'tratamento_reciclagem' => $credentials['tratamento_reciclagem'],

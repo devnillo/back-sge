@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Escola\Infraestrutura;
 
 use App\Http\Controllers\Controller;
-use App\Models\AbastecimentoAgua;
+use App\Models\FonteEnergia;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -20,7 +20,7 @@ class FonteEnergiaInfraestruturaController extends Controller
                 'energia_nao_ha' => "required|max:1",
                 'escola_infra_id' => "required"
             ]);
-            $data = AbastecimentoAgua::create([
+            $data = FonteEnergia::create([
                 'energia_rede_publica' => $credentials['energia_rede_publica'],
                 'energia_gerador_combustivel_fossil' => $credentials['energia_gerador_combustivel_fossil'],
                 'energia_renergia_renovavel_ou_alternativaede_publica' => $credentials['energia_renergia_renovavel_ou_alternativaede_publica'],

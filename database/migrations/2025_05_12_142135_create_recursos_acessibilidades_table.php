@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('recursos_acessibilidades', function (Blueprint $table) {
+        Schema::create('recursos_acessibilidade', function (Blueprint $table) {
             $table->id();
             $table->char('acess_corrimao_guarda_corpos', 1);
             $table->char('acess_elevador', 1);
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('recursos_acessibilidades');
+        Schema::dropIfExists('recursos_acessibilidade');
     }
 };

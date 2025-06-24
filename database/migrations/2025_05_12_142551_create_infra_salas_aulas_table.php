@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('salas_aulas', function (Blueprint $table) {
+        Schema::create('infra_salas_aulas', function (Blueprint $table) {
             $table->id();
             $table->string('qtd_salas_utilizadas_predio_escolar', 4)->nullable();
             $table->string('qtd_salas_utilizadas_fora_predio', 4);
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('salas_aulas');
+        Schema::dropIfExists('infra_salas_aulas');
     }
 };

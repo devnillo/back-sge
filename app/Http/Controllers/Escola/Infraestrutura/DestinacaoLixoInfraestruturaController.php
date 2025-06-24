@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Escola\Infraestrutura;
 
 use App\Http\Controllers\Controller;
-use App\Models\AbastecimentoAgua;
+use App\Models\DestinacaoLixo;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -19,7 +19,7 @@ class DestinacaoLixoInfraestruturaController extends Controller
                 'lixo_descarta_outra_area' => "required|max:1",
                 'escola_infra_id' => "required"
             ]);
-            $data = AbastecimentoAgua::create([
+            $data = DestinacaoLixo::create([
                 'lixo_servico_coleta' => $credentials['lixo_servico_coleta'],
                 'lixo_queima' => $credentials['lixo_queima'],
                 'lixo_destinacao_final_licenciada' => $credentials['lixo_destinacao_final_licenciada'],

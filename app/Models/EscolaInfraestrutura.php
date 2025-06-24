@@ -74,7 +74,7 @@ class EscolaInfraestrutura extends Model
     }
     public function equipamentos_didaticos()
     {
-        return $this->infraRelation(EquipamentosEnsinoAprendizagem::class);
+        return $this->infraRelation(EquipamentosDidaticos::class);
     }
     public function computadores_alunos()
     {

@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Escola\Infraestrutura;
 
 use App\Http\Controllers\Controller;
-use App\Models\AbastecimentoAgua;
+use App\Models\DependenciasFisicas;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class TratamentoLixoInfraestruturaController extends Controller
+class DependenciasFisicaInfraestruturaController extends Controller
 {
     public function register(Request $request)
     {
@@ -55,7 +55,7 @@ class TratamentoLixoInfraestruturaController extends Controller
                 'dep_nenhuma_das_dependencias' => "required|max:1",
                 'escola_infra_id' => "required"
             ]);
-            $data = AbastecimentoAgua::create([
+            $data = DependenciasFisicas::create([
                 'dep_almoxarifado' => $credentials['dep_almoxarifado'],
                 'dep_area_vegetacao_gramado' => $credentials['dep_area_vegetacao_gramado'],
                 'dep_auditorio' => $credentials['dep_auditorio'],

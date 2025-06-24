@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Escola\Infraestrutura;
 
 use App\Http\Controllers\Controller;
-use App\Models\AbastecimentoAgua;
+use App\Models\EsgotamentoSanitario;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -20,7 +20,7 @@ class EsgotamentoInfraestruturaController extends Controller
                 'esgoto_nao_ha' => "required|max:1",
                 'escola_infra_id' => "required"
             ]);
-            $data = AbastecimentoAgua::create([
+            $data = EsgotamentoSanitario::create([
                 'esgoto_rede_publica' => $credentials['esgoto_rede_publica'],
                 'esgoto_fossa_septica' => $credentials['esgoto_fossa_septica'],
                 'esgoto_fossa_rudimentar' => $credentials['esgoto_fossa_rudimentar'],
