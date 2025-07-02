@@ -7,7 +7,7 @@ use App\Models\DestinacaoLixo;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class DestinacaoLixoInfraestruturaController extends Controller
+class DestinacaoLixoController extends Controller
 {
     public function register(Request $request)
     {

@@ -7,7 +7,7 @@ use App\Models\AbastecimentoAgua;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class AbastecimentoAguaInfraestruturaController extends Controller
+class AbastecimentoAguaController extends Controller
 {
     public function register(Request $request)
     {
@@ -42,6 +42,5 @@ class AbastecimentoAguaInfraestruturaController extends Controller
                 'message' => $e->getMessage(),
             ], 401);
         }
-        return response()->json(['oii' => true]);
     }
 }

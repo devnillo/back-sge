@@ -7,7 +7,7 @@ use App\Models\EsgotamentoSanitario;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class EsgotamentoInfraestruturaController extends Controller
+class EsgotamentoController extends Controller
 {
     public function register(Request $request)
     {

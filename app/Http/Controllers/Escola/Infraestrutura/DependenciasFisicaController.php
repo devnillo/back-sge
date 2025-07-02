@@ -7,7 +7,7 @@ use App\Models\DependenciasFisicas;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class DependenciasFisicaInfraestruturaController extends Controller
+class DependenciasFisicaController extends Controller
 {
     public function register(Request $request)
     {

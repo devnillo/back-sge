@@ -8,7 +8,7 @@ use App\Models\SalasAulas;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class EquipamentosTecnicosAdministrativosInfraestruturaController extends Controller
+class EquipamentosTecnicosAdministrativosController extends Controller
 {
     public function register(Request $request)
     {

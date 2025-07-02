@@ -7,7 +7,7 @@ use App\Models\FonteEnergia;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class FonteEnergiaInfraestruturaController extends Controller
+class FonteEnergiaController extends Controller
 {
     public function register(Request $request)
     {

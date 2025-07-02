@@ -18,7 +18,7 @@ return new class extends Migration
             $table->char('tratamento_reciclagem', 1);
             $table->char('tratamento_nao_faz', 1);
 
-            $table->foreignId('escola_infra_id')->constrained('escola_infraestrutura')->onDelete('cascade');
+            $table->foreignId('escola_infra_id')->constrained('escola_infraestruturas')->onDelete('cascade');
             $table->timestamps();
         });
     }

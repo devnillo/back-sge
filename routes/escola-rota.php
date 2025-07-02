@@ -1,19 +1,29 @@
 <?php
 
-use App\Http\Controllers\Escola\Infraestrutura\AbastecimentoAguaInfraestruturaController;
 use App\Http\Controllers\Escola\Infraestrutura\EscolaInfraestruturaController;
 use App\Http\Controllers\Escola\EscolaController;
-use App\Http\Controllers\Escola\Infraestrutura\AcessibilidadeInfraestruturaController;
-use App\Http\Controllers\Escola\Infraestrutura\ComputadoresUsoAlunosInfraestruturaController;
-use App\Http\Controllers\Escola\Infraestrutura\DependenciasFisicaInfraestruturaController;
-use App\Http\Controllers\Escola\Infraestrutura\DestinacaoLixoInfraestruturaController;
-use App\Http\Controllers\Escola\Infraestrutura\EquipamentosTecnicosAdministrativosInfraestruturaController;
-use App\Http\Controllers\Escola\Infraestrutura\EsgotamentoInfraestruturaController;
-use App\Http\Controllers\Escola\Infraestrutura\FonteEnergiaInfraestruturaController;
-use App\Http\Controllers\Escola\Infraestrutura\SalasAulasInfraestruturaController;
-use App\Models\DependenciasFisicas;
-use App\Models\DestinacaoLixo;
-use App\Models\EquipamentosDidaticos;
+use App\Http\Controllers\Escola\Infraestrutura\AcessibilidadeController;
+use App\Http\Controllers\Escola\Infraestrutura\AcessoInternetController;
+use App\Http\Controllers\Escola\Infraestrutura\ComputadoresUsoAlunosController;
+use App\Http\Controllers\Escola\Infraestrutura\DependenciasFisicaController;
+use App\Http\Controllers\Escola\Infraestrutura\DestinacaoLixoController;
+use App\Http\Controllers\Escola\Infraestrutura\EquipamentosDidaticosController;
+use App\Http\Controllers\Escola\Infraestrutura\EquipamentosTecnicosAdministrativosController;
+use App\Http\Controllers\Escola\Infraestrutura\EquipamentosUsadosAlunosAcessoController;
+use App\Http\Controllers\Escola\Infraestrutura\EsgotamentoController;
+use App\Http\Controllers\Escola\Infraestrutura\FonteEnergiaController;
+use App\Http\Controllers\Escola\Infraestrutura\FormasDesenvolvimentoEducacaoAmbientalController;
+use App\Http\Controllers\Escola\Infraestrutura\InfraestruturaProfissionaisController;
+use App\Http\Controllers\Escola\Infraestrutura\InstrumentosMateriaisPedagogicosController;
+use App\Http\Controllers\Escola\Infraestrutura\IntegracaoComunidadeController;
+use App\Http\Controllers\Escola\Infraestrutura\LinguasEnsinoController;
+use App\Http\Controllers\Escola\Infraestrutura\OrgaosColegiadosController;
+use App\Http\Controllers\Escola\Infraestrutura\RedeLocalInteligacaoComputadoresController;
+use App\Http\Controllers\Escola\Infraestrutura\SalasAulasController;
+use App\Http\Controllers\Escola\Infraestrutura\SistemaCotasController;
+use App\Http\Controllers\Escola\Infraestrutura\TipoInternetController;
+use App\Http\Controllers\Escola\Infraestrutura\TratamentoLixoController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,19 +38,27 @@ Route::prefix('escolas')->group(function () {
     Route::prefix('/infraestrutura')->group(function () {
         Route::post('/registrar', [EscolaInfraestruturaController::class, 'register']);
 
-        Route::post('/abastecimento-agua/registrar', [AbastecimentoAguaInfraestruturaController::class, 'register']);
-        Route::post('/fonte-energia/registrar', [FonteEnergiaInfraestruturaController::class, 'register']);
-        Route::post('/esgotamento/registrar', [EsgotamentoInfraestruturaController::class, 'register']);
-        Route::post('/destinacao-lixo/registrar', [DestinacaoLixoInfraestruturaController::class, 'register']);
-        Route::post('/tratamento-lixo/registrar', [DestinacaoLixoInfraestruturaController::class, 'register']);
-        Route::post('/depencias/registrar', [DependenciasFisicaInfraestruturaController::class, 'register']);
-        Route::post('/acessibilidade/registrar', [AcessibilidadeInfraestruturaController::class, 'register']);
-        Route::post('/salas-infraestrutura/registrar', [SalasAulasInfraestruturaController::class, 'register']);
-        Route::post('/equipamentos-tecnicos-adminitrativos/registrar', [EquipamentosTecnicosAdministrativosInfraestruturaController::class, 'register']);
-        Route::post('/equipamentos-didaticos/registrar', [EquipamentosDidaticos::class, 'register']);
-        Route::post('/computadores-alunos/registrar', [ComputadoresUsoAlunosInfraestruturaController::class, 'register']);
-
-
-
+        Route::post('/abastecimento-agua/registrar', [TratamentoLixoController::class, 'register']);
+        Route::post('/fonte-energia/registrar', [FonteEnergiaController::class, 'register']);
+        Route::post('/esgotamento/registrar', [EsgotamentoController::class, 'register']);
+        Route::post('/destinacao-lixo/registrar', [DestinacaoLixoController::class, 'register']);
+        Route::post('/tratamento-lixo/registrar', [TratamentoLixoController::class, 'register']);
+        Route::post('/depencias/registrar', [DependenciasFisicaController::class, 'register']);
+        Route::post('/acessibilidade/registrar', [AcessibilidadeController::class, 'register']);
+        Route::post('/salas-infraestrutura/registrar', [SalasAulasController::class, 'register']);
+        Route::post('/equipamentos-tecnicos-adminitrativos/registrar', [EquipamentosTecnicosAdministrativosController::class, 'register']);
+        Route::post('/equipamentos-didaticos/registrar', [EquipamentosDidaticosController::class, 'register']);
+        Route::post('/computadores-alunos/registrar', [ComputadoresUsoAlunosController::class, 'register']);
+        Route::post('/acesso-internet/registrar', [AcessoInternetController::class, 'register']);
+        Route::post('/tipo-internet/registrar', [TipoInternetController::class, 'register']);
+        Route::post('/rede-local-inteligacao-computadores/registrar', [RedeLocalInteligacaoComputadoresController::class, 'register']);
+        Route::post('/equipamentos-usados-alunos-acesso/registrar', [EquipamentosUsadosAlunosAcessoController::class, 'register']);
+        Route::post('/profissionais-infraestrutura/registrar', [InfraestruturaProfissionaisController::class, 'register']);
+        Route::post('/instrumentos-materiais-pedagogicos/registrar', [InstrumentosMateriaisPedagogicosController::class, 'register']);
+        Route::post('/linguas-ensino/registrar', [LinguasEnsinoController::class, 'register']);
+        Route::post('/sistema-cotas/registrar', [SistemaCotasController::class, 'register']);
+        Route::post('/integracao-comunidade/registrar', [IntegracaoComunidadeController::class, 'register']);
+        Route::post('/orgaos-colegiados/registrar', [OrgaosColegiadosController::class, 'register']);
+        Route::post('/formas-desenvolvimento-educacao-ambiental/registrar', [FormasDesenvolvimentoEducacaoAmbientalController::class, 'register']);
     });
 });

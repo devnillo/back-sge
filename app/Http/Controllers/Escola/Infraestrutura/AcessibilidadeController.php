@@ -8,7 +8,7 @@ use App\Models\RecursosAcessibilidade;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
-class AcessibilidadeInfraestruturaController extends Controller
+class AcessibilidadeController extends Controller
 {
     public function register(Request $request)
     {
