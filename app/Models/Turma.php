@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Turma extends Model
 {
@@ -87,13 +89,26 @@ class Turma extends Model
         'estudos_sociais',
         'sociologia',
         'literatura_frances',
-        'linhua_portuguesa_segunda_lingua',
+        'lingua_portuguesa_segunda_lingua',
         'estagio_supervisionado',
-        'projeto_vida',
-        'outras_unidades_curriculares',
+        'materia_projeto_vida',
+        'materia_outras_unidades_curriculares',
 
         'classe_bilingue_surdos',
 
         'escola_id'
     ];
+    
+    protected function escola (): BelongsTo
+    {
+        return $this->belongsTo(Escola::class);
+    }
+    protected function alunos (): HasMany
+    {
+        return $this->hasMany(Aluno::class);
+    }
+    protected function professores (): HasMany
+    {
+        return $this->hasMany(professor::class);
+    }
 }

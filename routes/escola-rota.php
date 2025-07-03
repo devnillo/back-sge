@@ -23,7 +23,7 @@ use App\Http\Controllers\Escola\Infraestrutura\SalasAulasController;
 use App\Http\Controllers\Escola\Infraestrutura\SistemaCotasController;
 use App\Http\Controllers\Escola\Infraestrutura\TipoInternetController;
 use App\Http\Controllers\Escola\Infraestrutura\TratamentoLixoController;
-
+use App\Http\Controllers\Escola\TurmaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -60,5 +60,13 @@ Route::prefix('escolas')->group(function () {
         Route::post('/integracao-comunidade/registrar', [IntegracaoComunidadeController::class, 'register']);
         Route::post('/orgaos-colegiados/registrar', [OrgaosColegiadosController::class, 'register']);
         Route::post('/formas-desenvolvimento-educacao-ambiental/registrar', [FormasDesenvolvimentoEducacaoAmbientalController::class, 'register']);
+    });
+
+    Route::prefix('turmas')->group(function () {
+        route::post('create', [TurmaController::class, 'register']);
+        route::post('update/{id}', [TurmaController::class, 'update']);
+        route::delete('delete/{id}', [TurmaController::class, 'destroy']);
+        route::get('/{id}', [TurmaController::class, 'show']);
+
     });
 });
