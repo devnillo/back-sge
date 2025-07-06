@@ -30,7 +30,8 @@
         }
     },
     "files": [
-        "app/Helpers/ApiResponse.php"
+        "app/Helpers/ApiResponse.php",
+        "app/Helpers/PermissionHelper.php"
     ],
     "autoload-dev": {
         "psr-4": {

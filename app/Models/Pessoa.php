@@ -12,6 +12,7 @@ class Pessoa extends Authenticatable implements JWTSubject
     use HasRoles;
     // protected $guard_name = 'api';
     protected $with = ['roles'];
+    protected $guard_name = 'pessoas';
     protected $fillable = [
         'tipo_registro',
         'codigo_escola_inep',
@@ -128,10 +129,6 @@ class Pessoa extends Authenticatable implements JWTSubject
     public function getJWTIdentifier()
     {
         return $this->getKey();
-    }
-    public function getAuthIdentifierName()
-    {
-        return 'codigo_pessoa_fisica_sistema_proprio';
     }
 
     public function getJWTCustomClaims()

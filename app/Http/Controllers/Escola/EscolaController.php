@@ -10,47 +10,56 @@ use App\Http\Resources\EscolaResource;
 use App\Models\Escola;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class EscolaController extends Controller
 {
     public function register(StoreEscolaRequest $request)
     {
+
         $numero = str_pad(mt_rand(0, 99999999), 8, '0', STR_PAD_LEFT);
         try {
-            $validated = $request->validated();
-            $escola = Escola::create([
-                'tipo_registro' => '00',
-                'secretaria_id' => $validated["secretaria_id"],
-                'codigo_escola_inep' => $validated['codigo_escola_inep'],
-                'nome_escola' => $validated['nome_escola'],
-                'situacao_funcionamento' => $validated['situacao_funcionamento'] ?? null,
-                'data_inicio_ano_letivo' => $validated['data_inicio_ano_letivo'] ?? null,
-                'data_termino_ano_letivo' => $validated['data_termino_ano_letivo'] ?? null,
-                'cep' => $validated['cep'],
-                'municipio_codigo' => $validated['municipio_codigo'],
-                'distrito_codigo' => $validated['distrito_codigo'],
-                'endereco' => $validated['endereco'],
-                'numero' => $validated['numero'],
-                'complemento' => $validated['complemento'] ?? null,
-                'bairro' => $validated['bairro'] ?? null,
-                'ddd' => $validated['ddd'] ?? null,
-                'telefone' => $validated['telefone'] ?? null,
-                'localizacao_zona' => $validated['localizacao_zona'] ?? null,
-                'localizacao_diferenciada' => $validated['localizacao_diferenciada'] ?? null,
-                'dependencia_administrativa' => $validated['dependencia_administrativa'],
-                'outro_telefone' => $validated['outro_telefone'] ?? null,
-                'email_escola' => $validated['email_escola'] ?? null,
-                'escola_indigena' => $validated['escola_indigena'] ?? null,
-                'educacao_ambiental' => $validated['educacao_ambiental'] ?? null,
-                'status' => $validated['status'] ?? null,
-            ]);
-            return ApiResponse::success($escola, 'Escola cadastrada com sucesso', 201);
+            if (Auth::guard('pessoas')->check()) {
+                $user = Auth::guard('pessoas')->user();
+                if ($user->can('criar_escolas')) {
+                    $validated = $request->validated();
+                    $escola = Escola::create([
+                        'tipo_registro' => '00',
+                        'secretaria_id' => $validated["secretaria_id"],
+                        'codigo_escola_inep' => $validated['codigo_escola_inep'],
+                        'nome_escola' => $validated['nome_escola'],
+                        'situacao_funcionamento' => $validated['situacao_funcionamento'] ?? null,
+                        'data_inicio_ano_letivo' => $validated['data_inicio_ano_letivo'] ?? null,
+                        'data_termino_ano_letivo' => $validated['data_termino_ano_letivo'] ?? null,
+                        'cep' => $validated['cep'],
+                        'municipio_codigo' => $validated['municipio_codigo'],
+                        'distrito_codigo' => $validated['distrito_codigo'],
+                        'endereco' => $validated['endereco'],
+                        'numero' => $validated['numero'],
+                        'complemento' => $validated['complemento'] ?? null,
+                        'bairro' => $validated['bairro'] ?? null,
+                        'ddd' => $validated['ddd'] ?? null,
+                        'telefone' => $validated['telefone'] ?? null,
+                        'localizacao_zona' => $validated['localizacao_zona'] ?? null,
+                        'localizacao_diferenciada' => $validated['localizacao_diferenciada'] ?? null,
+                        'dependencia_administrativa' => $validated['dependencia_administrativa'],
+                        'outro_telefone' => $validated['outro_telefone'] ?? null,
+                        'email_escola' => $validated['email_escola'] ?? null,
+                        'escola_indigena' => $validated['escola_indigena'] ?? null,
+                        'educacao_ambiental' => $validated['educacao_ambiental'] ?? null,
+                        'status' => $validated['status'] ?? null,
+                    ]);
+                    return ApiResponse::success($escola, 'Escola cadastrada com sucesso', 201);
+                }
+                return ApiResponse::error('Você não tem permissão para criar uma escola', 403);
+            }
+            return ApiResponse::error('Você não está autenticado', 401);
         } catch (ValidationException $e) {
             return ApiResponse::error('Erro de validação', 422, $e->errors());
         } catch (\Exception $e) {
             return ApiResponse::error('Erro ao cadastrar uma escola');
-         }
+        }
     }
     public function update(UpdateEscolaRequest $request, $id)
     {

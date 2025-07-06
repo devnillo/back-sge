@@ -111,7 +111,7 @@ return [
      */
     'register_octane_reset_listener' => false,
     'defaults' => [
-        'guard' => 'api',
+        'guard' => 'pessoas',
     ],
     /*
      * Events will fire when a role or permission is assigned/unassigned:
