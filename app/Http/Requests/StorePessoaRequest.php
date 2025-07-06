@@ -22,10 +22,9 @@ class StorePessoaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'role' => 'string',
+            'role' => 'string',
             'tipo_registro' => 'string',
             'codigo_escola_inep' => 'string|max:8',
-            // 'codigo_pessoa_fisica_sistema_proprio' => 'string|max:20|required|unique:pessoas',
             'identificacao_unica_inep' => 'string|max:12',
             'numero_cpf' => 'string|max:11|required|unique:pessoas',
             'nome_completo' => 'string:max:100|required',
@@ -123,7 +122,8 @@ class StorePessoaRequest extends FormRequest
             'nenhum' => 'string|max:1',
             'endereco_eletronico_email' => 'string|max:100',
 
-            'escola_id' => 'integer|required',
+            'escola_id' => 'integer',
+            'secretaria_id' => 'integer',
         ];
     }
 }

@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Helpers\ApiResponse;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreEscolaRequest extends FormRequest
 {
@@ -13,7 +16,16 @@ class StoreEscolaRequest extends FormRequest
     {
         return true;
     }
-
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            ApiResponse::error(
+                'Erro de validação',
+                422,
+                $validator->errors()
+            )
+        );
+    }
     /**
      * Get the validation rules that apply to the request.
      *

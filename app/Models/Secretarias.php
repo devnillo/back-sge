@@ -15,11 +15,13 @@ class Secretarias extends Authenticatable implements JWTSubject
         'nome',
         'email',
         'telefone',
-        'password',
-        'cidade',
+        'municipio',
         'estado',
-        'cep',
+        'bairro',
         'endereco',
+        'cep',
+        'numero',
+        'password',
     ];
 
     public function users(): hasMany

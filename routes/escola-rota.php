@@ -28,12 +28,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('escolas')->group(function () {
-    Route::post('/registrar', [EscolaController::class, 'register']);
+    Route::post('/register', [EscolaController::class, 'register']);
     Route::post('/atualizar/{id}', [EscolaController::class, 'update']);
+    Route::delete('/deletar/{id}', [EscolaController::class, 'destroy']);
+    Route::post('/status/{id}', [EscolaController::class, 'changeStatus']);
     Route::get('secretaria/{id}/escolas', [EscolaController::class, 'getAllBySecretaryId']);
     Route::get('/{id}', [EscolaController::class, 'getById']);
-
-
 
     Route::prefix('/infraestrutura')->group(function () {
         Route::post('/registrar', [EscolaInfraestruturaController::class, 'register']);
@@ -61,12 +61,10 @@ Route::prefix('escolas')->group(function () {
         Route::post('/orgaos-colegiados/registrar', [OrgaosColegiadosController::class, 'register']);
         Route::post('/formas-desenvolvimento-educacao-ambiental/registrar', [FormasDesenvolvimentoEducacaoAmbientalController::class, 'register']);
     });
-
     Route::prefix('turmas')->group(function () {
         route::post('create', [TurmaController::class, 'register']);
         route::post('update/{id}', [TurmaController::class, 'update']);
         route::delete('delete/{id}', [TurmaController::class, 'destroy']);
         route::get('/{id}', [TurmaController::class, 'show']);
-
     });
 });

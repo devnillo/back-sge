@@ -3,11 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Pessoas extends Model
+class Pessoa extends Authenticatable implements JWTSubject
 {
+    use HasRoles;
+    // protected $guard_name = 'api';
+    protected $with = ['roles'];
     protected $fillable = [
-        // 'pessoas',
         'tipo_registro',
         'codigo_escola_inep',
         'codigo_pessoa_fisica_sistema_proprio',
@@ -107,11 +112,38 @@ class Pessoas extends Model
         'outros',
         'nenhum',
         'endereco_eletronico_email',
-        'escola_id'
+        'role',
+        'escola_id',
+        'secretaria_id'
     ];
-
     public function escola()
     {
         return $this->belongsTo(Escola::class, 'escola_id');
+    }
+    public function secretaria()
+    {
+        return $this->belongsTo(Escola::class, 'secretaria_id');
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+    public function getAuthIdentifierName()
+    {
+        return 'codigo_pessoa_fisica_sistema_proprio';
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
     }
 }

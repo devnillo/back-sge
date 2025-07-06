@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Helpers\ApiResponse;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Throwable;
@@ -15,14 +16,11 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->renderable(function (ValidationException $e, $request) {
-            if ($request->expectsJson()) {
-                return response()->json([
-                    'error' => true,
-                    'message' => 'Erro de validação',
-                    'details' => $e->errors(),
-                ], 422);
-            }
+            return ApiResponse::error(
+                'Erro de validação',
+                422,
+                $e->errors()
+            );
         });
-            
     }
 }

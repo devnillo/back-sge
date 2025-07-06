@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Escola;
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEscolaRequest;
 use App\Http\Requests\UpdateEscolaRequest;
 use App\Http\Resources\EscolaResource;
 use App\Models\Escola;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -43,17 +45,12 @@ class EscolaController extends Controller
                 'educacao_ambiental' => $validated['educacao_ambiental'] ?? null,
                 'status' => $validated['status'] ?? null,
             ]);
-            return response()->json([
-                'success' => true,
-                'escola' => $validated,
-                'message' => 'Escola cadastrada com sucesso',
-            ], 201);
+            return ApiResponse::success($escola, 'Escola cadastrada com sucesso', 201);
         } catch (ValidationException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => $e->errors(),
-            ], 422);
-        }
+            return ApiResponse::error('Erro de validação', 422, $e->errors());
+        } catch (\Exception $e) {
+            return ApiResponse::error('Erro ao cadastrar uma escola');
+         }
     }
     public function update(UpdateEscolaRequest $request, $id)
     {
@@ -86,6 +83,44 @@ class EscolaController extends Controller
             ], 422);
         }
     }
+    public function destroy($id)
+    {
+        try {
+            $escola = Escola::findOrFail($id);
+
+            $escola->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Turma deletada com sucesso',
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Turma não encontrada',
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Erro ao deletar turma: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+    public function changeStatus(Request $request, $id)
+    {
+        try {
+            $escola = Escola::findOrFail($id);
+            $escola->update([
+                'status' => $request->input('status'),
+            ]);
+            return ApiResponse::success('Status da escola atualizado com sucesso', $escola);
+        } catch (ModelNotFoundException $e) {
+            return ApiResponse::error('Escola não encontrada', 404);
+        } catch (\Exception $e) {
+            return ApiResponse::error('Erro ao atualizar status da escola', 500);
+        }
+    }
+
     public function getAllBySecretaryId($id)
     {
         $escola = Escola::where('secretaria_id', '=', $id)->get();
@@ -94,9 +129,14 @@ class EscolaController extends Controller
     }
     public function getById($id)
     {
-        $escola = Escola::where('id', '=', $id)->first();
-
-        return new EscolaResource($escola);
+        try {
+            $escola = Escola::findOrFail($id);
+            return ApiResponse::success(new EscolaResource($escola), 'Escola encontrada com sucesso');
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Escola não encontrada',
+            ], 404);
+        }
     }
 }
-

@@ -11,6 +11,7 @@ enum LocalizacaoDiferenciada: string
     case Comunidade_quilombola = '3';
     case Nao = '7';
     case povos_comunidades_tradicionais = '8';
+    case null = "";
 
     public function label(): string
     {
@@ -20,6 +21,7 @@ enum LocalizacaoDiferenciada: string
             self::Comunidade_quilombola => 'Comunidade quilombola',
             self::Nao => 'Não está em área de localização diferenciada',
             self::povos_comunidades_tradicionais => 'Área onde se localizam povos e comunidades tradicionais',
+            self::null => '',
             };
     }
     

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Secretaria;
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Escola;
 use App\Models\Secretarias;
@@ -19,43 +20,32 @@ class SecretariaController extends Controller
                 [
                     'nome' => 'required|string|max:255|unique:escolas,nome,' . $request->id,
                     'email' => 'required|email|max:255|unique:escolas,email,' . $request->id,
-                    'codigo' => 'string|max:255',
+                    'telefone' => 'string|max:255',
                     'municipio' => 'string|max:255',
-                    'distrito' => 'string|max:255',
+                    'estado' => 'string|max:255',
                     'bairro' => 'max:255',
-                    'cep' => 'required|string|max:255',
                     'endereco' => 'required|string|max:255',
+                    'cep' => 'required|string|max:255',
                     'numero' => 'max:255',
-                    'complemento' => 'max:255',
-                    'dependencia' => 'required|string|max:255',
-                    // 'password' => 'required',
+                    'password' => 'required',
                 ]
             );
-            $escola = Escola::findOrFail($id);
-            $escola->update([
+            $secrataria = Secretarias::findOrFail($id);
+            $secrataria->update([
                 'nome' => $validated['nome'],
-                'codigo' => $validated['codigo'],
-                'municipio' => $validated['municipio'],
-                'distrito' => $validated['distrito'],
-                'bairro' => $validated['bairro'],
-                'cep' => $validated['cep'],
-                'endereco' => $validated['endereco'],
-                'numero' => $validated['numero'],
-                'complemento' => $validated['complemento'],
                 'email' => $validated['email'],
-                'dependencia' => $validated['dependencia'],
-
+                'telefone' => $validated['telefone'],
+                'municipio' => $validated['municipio'],
+                'estado' => $validated['estado'],
+                'bairro' => $validated['bairro'],
+                'endereco' => $validated['endereco'],
+                'cep' => $validated['cep'],
+                'numero' => $validated['numero'],
+                'password' => Hash::make($validated['password']),
             ]);
-            return response()->json([
-                'success' => true,
-                'escola' => $escola,
-                'message' => 'Escola edidata com sucesso',
-            ], 201);
+            return ApiResponse::success($secrataria, 'Escola atualizada com sucesso!');
         } catch (ValidationException $e) {
-            return response()->json([
-                'error' => true,
-                'message' => $e->errors(),
-            ], 422);
+            return ApiResponse::error('Dados Incorretos!', 422, $e->errors());
         }
     }
     public function register(Request $request)
@@ -66,34 +56,31 @@ class SecretariaController extends Controller
                     'nome' => 'required|string|max:255|unique:secretarias',
                     'email' => 'required|string|email|max:255|unique:secretarias',
                     'telefone' => 'string|max:255',
-                    'password' => 'required|string|max:255',
-                    'cidade' => 'required|string|max:255',
-                    'estado' => 'required|string|max:255',
-                    'cep' => 'required|string|max:255',
+                    'municipio' => 'string|max:255',
+                    'estado' => 'string|max:255',
+                    'bairro' => 'max:255',
                     'endereco' => 'required|string|max:255',
+                    'cep' => 'required|string|max:255',
+                    'numero' => 'max:255',
+                    'password' => 'required',
                 ]
+
             );
             $secretaria = Secretarias::create([
                 'nome' => $validated['nome'],
                 'email' => $validated['email'],
                 'telefone' => $validated['telefone'],
-                'password' => Hash::make($validated['password']),
-                'cidade' => $validated['cidade'],
+                'municipio' => $validated['municipio'],
                 'estado' => $validated['estado'],
-                'cep' => $validated['cep'],
+                'bairro' => $validated['bairro'],
                 'endereco' => $validated['endereco'],
+                'cep' => $validated['cep'],
+                'numero' => $validated['numero'],
+                'password' => Hash::make($validated['password']),
             ]);
-            return response()->json([
-                'success' => true,
-                'data' => $secretaria,
-                'message' => 'Escola cadastrada com sucesso',
-            ], 201);
+            return ApiResponse::success($secretaria, 'Secretaria cadastrada com sucesso!');
         } catch (ValidationException $e) {
-            return response()->json([
-                'success' => false,
-                'errors' => $e->errors(),
-                'message' => 'Erro ao cadastrar escola',
-            ], 422);
+            return ApiResponse::error('Dados Incorretos!', 422, $e->errors());
         }
     }
     public function login(Request $request)
@@ -106,10 +93,10 @@ class SecretariaController extends Controller
             'email.email' => 'Informe um email válido',
             'password.required' => 'Senha é obrigatória',
         ]);
-        try{
+        try {
             if ($token = auth('secretaria')->attempt($credentials)) {
                 // $request->session()->regenerate();
-    
+
                 return response()->json([
                     'success' => true,
                     'user' => auth('secretaria')->user(),
@@ -121,23 +108,17 @@ class SecretariaController extends Controller
                 'success' => false,
                 'message' => 'Email ou senha inválidos',
             ], 401);
-        }catch(ValidationException $e){
+        } catch (ValidationException $e) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
     }
     public function show($id)
     {
         try {
-            $secretary = Secretarias::findOrFail($id);
-            return response()->json([
-                'success' => true,
-                'data' => $secretary,
-            ], 200);
-        } catch (Error $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erro ao buscar secretaria',
-            ], 404);
+            $secretaria = Secretarias::findOrFail($id);
+            return ApiResponse::success($secretaria, 'Secretaria encontrada!', 200);
+        } catch (\Exception $e) {
+            return ApiResponse::error('Erro inesperado, tente novamente!');
         }
     }
 }

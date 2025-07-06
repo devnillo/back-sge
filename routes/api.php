@@ -18,4 +18,4 @@ Route::get('/refresh', [AuthController::class, 'refresh']);
 // require __DIR__ . '/user-route.php';
 require __DIR__ . '/escola-rota.php';
 require __DIR__ . '/secretaria-route.php';
-require __DIR__ . '/pessoa-route.php';
+require __DIR__ . '/pessoa-rota.php';

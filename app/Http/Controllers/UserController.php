@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ApiResponse;
+use App\Models\Pessoas;
 use App\Models\User;
 use Error;
 use Exception;
@@ -13,7 +15,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
-
     public function register(Request $request)
     {
         try {
@@ -36,7 +37,6 @@ class UserController extends Controller
                 'password' => $credentials['password'],
                 'secretary_id' => $credentials['secretary_id'] ?? null,
             ]);
-            // $role = $user->roles()->sync($credentials['role']);
             return response()->json([
                 'success' => true,
                 'user' => $user,
@@ -53,32 +53,14 @@ class UserController extends Controller
                 'message' => 'Erro no banco de dados',
             ], 500);
     
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'error' => true,
                 'message' => 'Erro inesperado',
             ], 500);
         }
-        return response()->json([
-            'error' => true,
-            'message' => 'Erro ao cadastrar usuário',
-        ], 401);
     }
-    public function getById($id)
-    {
-        try{
-            $user = User::findOrFail($id);
-            return response()->json([
-                'success' => true,
-                'user' => $user,
-            ], 200);
-        }catch(Error $e){
-            return response()->json([
-                'error' => true,
-                'message' => 'Usuário não encontrado',
-            ], 404);
-        }
-    }
+   
     protected function respondWithToken($token)
     {
         return response()->json([

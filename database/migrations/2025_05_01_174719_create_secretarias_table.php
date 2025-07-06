@@ -16,11 +16,13 @@ return new class extends Migration
             $table->string('nome');
             $table->string('email')->unique();
             $table->string('telefone')->nullable();
-            $table->string('cidade');
+            $table->string('municipio');
             $table->string('estado');
+            $table->string('bairro');
             $table->string('endereco');
             $table->string('cep');
-            $table->string('senha');
+            $table->string('numero');
+            $table->string('password');
             $table->string('remember_token')->nullable();
             $table->timestamps();
         });

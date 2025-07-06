@@ -26,8 +26,6 @@ return new class extends Migration
             $table->char('sexo', 1);
             $table->char('cor_raca', 1);
 
-            $table->string('role')->nullable();
-
             $table->char('nacionalidade', 1);
             $table->string('pais_nacionalidade', 2);
             $table->char('municipio_nascimento', 7)->nullable();
@@ -124,9 +122,8 @@ return new class extends Migration
 
             $table->string('endereco_eletronico_email', 100)->nullable();
 
-            $table->unsignedBigInteger('escola_id')->nullable();
-            $table->foreign('escola_id')->references('id')->on('escolas');
-
+            $table->foreignId('escola_id')->nullable()->constrained('escolas');
+            $table->foreignId('secretaria_id')->nullable()->constrained('secretarias');
             $table->timestamps();
         });
     }
