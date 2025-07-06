@@ -48,7 +48,7 @@ class EscolaController extends Controller
                         'email_escola' => $validated['email_escola'] ?? null,
                         'escola_indigena' => $validated['escola_indigena'] ?? null,
                         'educacao_ambiental' => $validated['educacao_ambiental'] ?? null,
-                        'status' => $validated['status'] ?? null,
+                        'status' => 'ativa',
                     ]);
                     return ApiResponse::success($escola, 'Escola cadastrada com sucesso', 201);
                 }
@@ -64,55 +64,52 @@ class EscolaController extends Controller
     public function update(UpdateEscolaRequest $request, $id)
     {
         try {
-            $validated = $request->validated();
-            $escola = Escola::findOrFail($id);
-            $escola->update([
-                'nome_escola' => $validated['nome_escola'] ?? $escola->nome_escola,
-                'codigo_escola_inep' => $validated['codigo_escola_inep'] ?? $escola->codigo_escola_inep,
-                'municipio_codigo' => $validated['municipio_codigo'] ?? $escola->municipio_codigo,
-                'distrito_codigo' => $validated['distrito_codigo'] ?? $escola->distrito_codigo,
-                'bairro' => $validated['bairro'] ?? $escola->bairro,
-                'cep' => $validated['cep'] ?? $escola->cep,
-                'endereco' => $validated['endereco'] ?? $escola->endereco,
-                'numero' => $validated['numero'] ?? $escola->numero,
-                'complemento' => $validated['complemento'] ?? $escola->complemento,
-                'email_escola' => $validated['email_escola'] ?? $escola->email_escola,
-                'dependencia_administrativa' => $validated['dependencia_administrativa'] ?? $escola->dependencia_administrativa,
+            if (Auth::guard('pessoas')->check()) {
+                $user = Auth::guard('pessoas')->user();
+                if ($user->can('editar_escolas')) {
+                    $validated = $request->validated();
+                    $escola = Escola::findOrFail($id);
+                    $escola->update([
+                        'nome_escola' => $validated['nome_escola'] ?? $escola->nome_escola,
+                        'codigo_escola_inep' => $validated['codigo_escola_inep'] ?? $escola->codigo_escola_inep,
+                        'municipio_codigo' => $validated['municipio_codigo'] ?? $escola->municipio_codigo,
+                        'distrito_codigo' => $validated['distrito_codigo'] ?? $escola->distrito_codigo,
+                        'bairro' => $validated['bairro'] ?? $escola->bairro,
+                        'cep' => $validated['cep'] ?? $escola->cep,
+                        'endereco' => $validated['endereco'] ?? $escola->endereco,
+                        'numero' => $validated['numero'] ?? $escola->numero,
+                        'complemento' => $validated['complemento'] ?? $escola->complemento,
+                        'email_escola' => $validated['email_escola'] ?? $escola->email_escola,
+                        'status' => $validated['status'] ?? $escola->status,
+                        'dependencia_administrativa' => $validated['dependencia_administrativa'] ?? $escola->dependencia_administrativa,
 
-            ]);
-            return response()->json([
-                'success' => true,
-                'escola' => $escola,
-                'message' => 'Escola edidata com sucesso',
-            ], 201);
+                    ]);
+                    return ApiResponse::success($escola, 'Escola atualizada com sucesso!');
+                }
+            }
         } catch (ValidationException $e) {
-            return response()->json([
-                'error' => true,
-                'message' => $e->errors(),
-            ], 422);
+            return ApiResponse::error('Erro de validação', 422, $e->errors());
+        } catch (ModelNotFoundException $e) {
+            return ApiResponse::error('Escola não encontrada', 404);
+        } catch (\Exception $e) {
+            return ApiResponse::error('Erro ao atualizar escola', 500);
         }
     }
     public function destroy($id)
     {
         try {
-            $escola = Escola::findOrFail($id);
-
-            $escola->delete();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Turma deletada com sucesso',
-            ], 200);
+            if (Auth::guard('pessoas')->check()) {
+                $user = Auth::guard('pessoas')->user();
+                if ($user->can('deletar_escolas')) {
+                    $escola = Escola::findOrFail($id);
+                    $escola->delete();
+                    return ApiResponse::success('Escola deletada com sucesso');
+                }
+            }
         } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Turma não encontrada',
-            ], 404);
+            return ApiResponse::error('Escola não encontrada', 404);
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erro ao deletar turma: ' . $e->getMessage(),
-            ], 500);
+            return ApiResponse::error('Erro ao deletar escola', 500);
         }
     }
     public function changeStatus(Request $request, $id)

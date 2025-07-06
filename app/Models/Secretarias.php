@@ -28,6 +28,10 @@ class Secretarias extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(User::class, 'secretaria_id');
     }
+    public function pessoas(): hasMany
+    {
+        return $this->hasMany(Pessoa::class, 'secretaria_id');
+    }
     public function escolas(): HasMany
     {
         return $this->hasMany(Escola::class);

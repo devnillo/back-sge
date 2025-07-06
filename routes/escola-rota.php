@@ -28,7 +28,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('escolas')->group(function () {
-    Route::post('/register', [EscolaController::class, 'register'])->middleware('auth:pessoas');
+    Route::post('/register', [EscolaController::class, 'register']);
     Route::post('/atualizar/{id}', [EscolaController::class, 'update']);
     Route::delete('/deletar/{id}', [EscolaController::class, 'destroy']);
     Route::post('/status/{id}', [EscolaController::class, 'changeStatus']);
@@ -67,4 +67,4 @@ Route::prefix('escolas')->group(function () {
         route::delete('delete/{id}', [TurmaController::class, 'destroy']);
         route::get('/{id}', [TurmaController::class, 'show']);
     });
-});
+})->middleware('auth:pessoas');

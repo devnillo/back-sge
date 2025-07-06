@@ -103,12 +103,8 @@ class Turma extends Model
     {
         return $this->belongsTo(Escola::class);
     }
-    protected function alunos (): HasMany
+    protected function pessoas (): HasMany
     {
-        return $this->hasMany(Aluno::class);
-    }
-    protected function professores (): HasMany
-    {
-        return $this->hasMany(professor::class);
+        return $this->hasMany(Pessoa::class);
     }
 }

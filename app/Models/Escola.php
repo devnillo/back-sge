@@ -77,7 +77,7 @@ class Escola extends Model
         'vinculo_outra_instituicao_tipo',
         'codigo_escola_sede_vinculada',
         'codigo_ies_vinculada',
-
+        'status',
         'escola_indigena',
         'educacao_ambiental'
     ];
@@ -97,7 +97,7 @@ class Escola extends Model
     }
     public function pessoas()
     {
-        return $this->hasMany(Pessoas::class);
+        return $this->hasMany(Pessoa::class);
     }
     public function infraestrutura()
     {

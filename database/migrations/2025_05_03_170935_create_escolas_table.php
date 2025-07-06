@@ -75,6 +75,8 @@ return new class extends Migration
             $table->char('exame_selecao_ingresso', 1)->nullable();
             $table->char('ppp_atualizado_ultimos_12_meses', 1)->nullable();
             $table->char('educacao_ambiental', 1)->nullable();
+            
+            $table->string('status')->default('ativa');
 
             $table->foreignId('secretaria_id')->constrained('secretarias')->onDelete('cascade');
             $table->foreignId('diretor_id')->nullable()->constrained('users');
