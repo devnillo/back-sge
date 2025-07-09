@@ -100,6 +100,10 @@ return new class extends Migration
             
             $table->char('classe_bilingue_surdos', 1);
             
+            $table->string('qtd_vagas_alunos')->nullable();
+            $table->string('carga_horaria')->nullable();
+            $table->string('status')->default('ativa');
+
             $table->foreignId('escola_id')->constrained('escolas')->onDelete('cascade');
             $table->timestamps();
         });

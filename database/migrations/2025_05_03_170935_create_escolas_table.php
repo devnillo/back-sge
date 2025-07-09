@@ -76,6 +76,8 @@ return new class extends Migration
             $table->char('ppp_atualizado_ultimos_12_meses', 1)->nullable();
             $table->char('educacao_ambiental', 1)->nullable();
             
+            $table->string('qtd_vagas_alunos', 1)->nullable();
+            $table->string('carga_horaria', 1)->nullable();
             $table->string('status')->default('ativa');
 
             $table->foreignId('secretaria_id')->constrained('secretarias')->onDelete('cascade');

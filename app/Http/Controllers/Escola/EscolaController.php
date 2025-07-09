@@ -82,11 +82,12 @@ class EscolaController extends Controller
                         'email_escola' => $validated['email_escola'] ?? $escola->email_escola,
                         'status' => $validated['status'] ?? $escola->status,
                         'dependencia_administrativa' => $validated['dependencia_administrativa'] ?? $escola->dependencia_administrativa,
-
                     ]);
                     return ApiResponse::success($escola, 'Escola atualizada com sucesso!');
-                }
+                } 
+                    return ApiResponse::error('Você não tem permissão para editar uma escola', 403);
             }
+            return ApiResponse::error('Você não está autenticado', 401);
         } catch (ValidationException $e) {
             return ApiResponse::error('Erro de validação', 422, $e->errors());
         } catch (ModelNotFoundException $e) {
