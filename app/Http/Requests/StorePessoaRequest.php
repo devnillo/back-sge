@@ -124,6 +124,7 @@ class StorePessoaRequest extends FormRequest
 
             'escola_id' => 'integer',
             'secretaria_id' => 'integer',
+            'turma_id' => 'integer'
         ];
     }
 }

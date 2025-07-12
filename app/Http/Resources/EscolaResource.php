@@ -7,8 +7,15 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class EscolaResource extends JsonResource
 {
+
     public function formatField($field, ?string $customLabel = null): array
     {
+        if (is_null($field) || $field === '') {
+            return [
+                'valor' => 'Não definido',
+                'codigo' => '',
+            ];
+        }
         $label = is_object($field) && method_exists($field, 'label')
             ? $field->label()
             : strval($field);
@@ -28,7 +35,7 @@ class EscolaResource extends JsonResource
             'vinculo_orgao_outro',
             'localizacao_diferenciada'
         ];
-        foreach($campos as $campo){
+        foreach ($campos as $campo) {
             $dados[$campo] = $this->formatField($this->$campo);
         }
         return $dados;

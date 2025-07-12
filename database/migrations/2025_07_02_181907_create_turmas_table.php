@@ -96,7 +96,7 @@ return new class extends Migration
             $table->char('lingua_portuguesa_segunda_lingua', 1)->nullable();
             $table->char('estagio_supervisionado', 1)->nullable();
             $table->char('materia_projeto_vida', 1)->nullable();
-            $table->char('outras_areas_conhecimento', 1)->nullable();
+            $table->char('materia_outras_unidades_curriculares', 1)->nullable();
             
             $table->char('classe_bilingue_surdos', 1);
             

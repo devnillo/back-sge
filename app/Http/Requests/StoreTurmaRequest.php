@@ -23,7 +23,7 @@ class StoreTurmaRequest extends FormRequest
     {
         return [
             'tipo_registro' => 'max:2',
-            '' => 'required|max:8',
+            'codigo_escola_inep' => 'required|max:8',
             'codigo_turma' => 'required|max:20|unique:turmas',
             'codigo_turma_inep' => 'max:10|unique:turmas',
             'nome_turma' => 'required|max:80|unique:turmas',
@@ -65,7 +65,7 @@ class StoreTurmaRequest extends FormRequest
             'serie_ano' => 'max:1',
             'periodos_semestrais' => 'max:1',
             'ciclos' => 'max:1',
-            'grupo_nao_seriado' => 'max:1',
+            'grupos_nao_seriados' => 'max:1',
             'modulos' => 'max:1',
             'alternancia_regular_periodos' => 'max:1',
 
@@ -105,11 +105,10 @@ class StoreTurmaRequest extends FormRequest
             'lingua_portuguesa_segunda_lingua' => 'max:1',
             'estagio_supervisionado' => 'max:1',
             'materia_projeto_vida' => 'max:1',
-            'materia_outras_areas_conhecimento' => 'max:1',
+            'materia_outras_unidades_curriculares' => 'max:1',
 
-            'classe_bilingue_surdos' => 'max:1',
-
-            'escola_id'
+            'classe_bilingue_surdos' => 'required|max:1',
+            'escola_id' =>'required'
         ];
     }
 }

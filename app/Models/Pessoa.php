@@ -115,7 +115,8 @@ class Pessoa extends Authenticatable implements JWTSubject
         'endereco_eletronico_email',
         'role',
         'escola_id',
-        'secretaria_id'
+        'secretaria_id',
+        'turma_id'
     ];
     public function escola()
     {
@@ -125,6 +126,11 @@ class Pessoa extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo(Escola::class, 'secretaria_id');
     }
+    public function turma()
+    {
+        return $this->belongsTo(Turma::class, 'turma_id');
+    }
+    
 
     public function getJWTIdentifier()
     {

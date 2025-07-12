@@ -24,6 +24,7 @@ use App\Http\Controllers\Escola\Infraestrutura\SistemaCotasController;
 use App\Http\Controllers\Escola\Infraestrutura\TipoInternetController;
 use App\Http\Controllers\Escola\Infraestrutura\TratamentoLixoController;
 use App\Http\Controllers\Escola\TurmaController;
+use App\Http\Controllers\Escola\MatriculaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -62,10 +63,19 @@ Route::prefix('escolas')->middleware('auth:pessoas')->group(function () {
         Route::post('/formas-desenvolvimento-educacao-ambiental/registrar', [FormasDesenvolvimentoEducacaoAmbientalController::class, 'register']);
     });
     Route::prefix('turmas')->group(function () {
-        route::post('create', [TurmaController::class, 'register']);
+        route::post('register', [TurmaController::class, 'register']);
         route::post('update/{id}', [TurmaController::class, 'update']);
-        route::delete('delete/{id}', [TurmaController::class, 'destroy']);
+        route::delete('destroy/{id}', [TurmaController::class, 'destroy']);
         route::get('/{id}', [TurmaController::class, 'show']);
+        route::get('/all/{id}', [TurmaController::class, 'showAllBySchoolId']);
     });
+    Route::prefix('/{id}/matriculas')->group(function () {
+        route::post('create', [MatriculaController::class, 'register']);
+        // route::post('update/{id}', [MatriculaController::class, 'update']);
+        // route::delete('delete/{id}', [MatriculaController::class, 'destroy']);
+        // route::get('/{id}', [MatriculaController::class, 'show']);
+    });
+
+    
 });
 

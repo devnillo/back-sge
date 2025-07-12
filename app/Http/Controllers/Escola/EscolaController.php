@@ -18,7 +18,7 @@ class EscolaController extends Controller
     public function register(StoreEscolaRequest $request)
     {
 
-        $numero = str_pad(mt_rand(0, 99999999), 8, '0', STR_PAD_LEFT);
+        $numero = str_pad(mt_rand(0, 99999999), 7, '0', STR_PAD_LEFT);
         try {
             if (Auth::guard('pessoas')->check()) {
                 $user = Auth::guard('pessoas')->user();

@@ -124,6 +124,7 @@ return new class extends Migration
 
             $table->foreignId('escola_id')->nullable()->constrained('escolas');
             $table->foreignId('secretaria_id')->nullable()->constrained('secretarias');
+            
             $table->timestamps();
         });
     }

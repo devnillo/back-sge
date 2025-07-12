@@ -21,11 +21,11 @@ class UpdateTurmaRequest extends FormRequest
     {
         return [
             'tipo_registro' => 'nullable|max:2',
-            'codigo_escola_inep' => 'required|max:8',
-            'codigo_turma' => 'required|max:20|unique:turmas,codigo_turma,' . $this->route('id'),
+            'codigo_escola_inep' => 'max:8',
+            'codigo_turma' => 'max:20|unique:turmas,codigo_turma,' . $this->route('id'),
             'codigo_turma_inep' => 'nullable|max:10|unique:turmas,codigo_turma_inep,' . $this->route('id'),
-            'nome_turma' => 'required|max:80|unique:turmas,nome_turma,' . $this->route('id'), 
-            'tipo_medicao' => 'required',
+            'nome_turma' => 'max:80|unique:turmas,nome_turma,' . $this->route('id'), 
+            'tipo_medicao' => 'max:1',
 
             'horario_inicio'  => 'nullable|max:2',
             'horario_minuto_inicio' => 'nullable|max:2',

@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Enum\SimNao;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Turma extends Model
 {
+
     protected $fillable = [
         'tipo_registro',
         'codigo_escola_inep',
@@ -48,7 +50,7 @@ class Turma extends Model
         'modalidade',
         'etapa',
         'codigo_curso',
-        
+
         'serie_ano',
         'periodos_semestrais',
         'ciclos',
@@ -99,11 +101,21 @@ class Turma extends Model
         'escola_id'
     ];
     
-    protected function escola (): BelongsTo
+    protected $casts = [
+        'domingo' => SimNao::class,
+        'segunda' => SimNao::class,
+        'terca' => SimNao::class,
+        'quarta' => SimNao::class,
+        'quinta' => SimNao::class,
+        'sexta' => SimNao::class,
+        'sabado' => SimNao::class,
+
+    ];
+    public function escola(): BelongsTo
     {
-        return $this->belongsTo(Escola::class);
+        return $this->belongsTo(Escola::class, 'escola_id');
     }
-    protected function pessoas (): HasMany
+    public function pessoas(): HasMany
     {
         return $this->hasMany(Pessoa::class);
     }
