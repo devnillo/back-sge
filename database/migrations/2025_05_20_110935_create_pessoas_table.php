@@ -121,9 +121,11 @@ return new class extends Migration
             $table->char('nenhum', 1)->nullable();
 
             $table->string('endereco_eletronico_email', 100)->nullable();
+            $table->string('role', 20)->nullable();
 
             $table->foreignId('escola_id')->nullable()->constrained('escolas');
             $table->foreignId('secretaria_id')->nullable()->constrained('secretarias');
+            
             
             $table->timestamps();
         });

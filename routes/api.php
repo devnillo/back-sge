@@ -16,3 +16,4 @@ Route::get('/refresh', [AuthController::class, 'refresh']);
 require __DIR__ . '/escola-rota.php';
 require __DIR__ . '/secretaria-route.php';
 require __DIR__ . '/pessoa-rota.php';
+require __DIR__ . '/responsavel-rota.php';

@@ -168,13 +168,12 @@ class TurmaController extends Controller
             if ($response) {
                 return $response; 
             }
-            $turma = Turma::with('pessoas')
-                ->findOrFail($id);
+            $turma = Turma::with('alunos')->findOrFail($id);
             return ApiResponse::success(new TurmaResource($turma), 'turma encontrada com sucesso!');
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('Turma não encontrada!', 404);
         } catch (\Exception $e) {
-            return ApiResponse::error('Erro ao buscar turma!');
+            return ApiResponse::error('Erro ao buscar turma!', 500, $e->getMessage());
         }
     }
     public function showAllBySchoolId($id)

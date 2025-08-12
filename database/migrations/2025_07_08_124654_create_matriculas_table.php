@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('escola_id')->nullable()->constrained('escolas');
 
             $table->date('data_matricula')->nullable();
-            $table->enum('status', ['ativa', 'transferida', 'cancelada', 'pendente', 'abandono'])->default('ativa');
+            $table->enum('status', ['ativa', 'transferida', 'cancelada', 'pendente', 'abandono'])->default('pendente');
             $table->text('motivo_transferencia')->nullable();
             $table->date('data_transferencia')->nullable();
             $table->timestamps();

@@ -45,16 +45,7 @@ class TurmaResource extends JsonResource
             $dados[$campo] = $this->formatField($this->$campo);
         }
 
-        // Adiciona as relações com pessoas separadas por role
-        $dados['pessoas'] = [
-            'alunos' => $this->whenLoaded('pessoas', function () {
-                return $this->pessoas->roles->where('name', "=",'admin')
-                    ->map(function ($aluno) {
-                        return $this->formatField($aluno);
-                    })
-                    ->values();
-            })
-        ];
+        
 
         return $dados;
     }

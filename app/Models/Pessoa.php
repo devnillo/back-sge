@@ -116,11 +116,16 @@ class Pessoa extends Authenticatable implements JWTSubject
         'role',
         'escola_id',
         'secretaria_id',
-        'turma_id'
+        'turma_id',
+        'responsavel_id',
     ];
     public function escola()
     {
         return $this->belongsTo(Escola::class, 'escola_id');
+    }
+    public function responsavel()
+    {
+        return $this->hasOne(Responsavel::class, 'id', 'responsavel_id');
     }
     public function secretaria()
     {

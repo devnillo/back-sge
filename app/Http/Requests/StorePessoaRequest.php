@@ -122,9 +122,25 @@ class StorePessoaRequest extends FormRequest
             'nenhum' => 'string|max:1',
             'endereco_eletronico_email' => 'string|max:100',
 
-            'escola_id' => 'integer',
-            'secretaria_id' => 'integer',
-            'turma_id' => 'integer'
+            'escola_id' => 'nullable|integer',
+            'secretaria_id' => 'nullable|integer',
+            'turma_id' => 'nullable|integer',
+            'disciplina_id' => 'nullable|integer|max:2',
+            'horario_id' => 'nullable|integer',
+
+
+            'nome_responsavel' => 'required',
+            'sexo_responsavel' => 'required',
+            'cor_responsavel' => 'max:10',
+            'nacionalidade_responsavel' => 'max:10',
+            'cpf_responsavel' => 'required',
+            'data_nascimento_responsavel' => 'required',
+            'naturalidade_responsavel' => 'required',
+            'endereco_responsavel' => 'required',
+            'telefone_responsavel' => 'required',
+            'email_responsavel' => 'required|unique:responsaveis',
+            'escolaridade_responsavel' => 'required',
+            'parentesco_responsavel' => 'required',
         ];
     }
 }

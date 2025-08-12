@@ -108,5 +108,6 @@ class StoreEscolaRequest extends FormRequest
             'diretor_id' => 'max:255',
             'status' => 'string',
         ];
+        
     }
 }

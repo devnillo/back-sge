@@ -114,7 +114,8 @@ class PessoaService
             'escola_id' => $validated['escola_id'] ?? null,
             'secretaria_id' => $validated['secretaria_id'] ?? null,
             'turma_id' => $validated['turma_id'] ?? null,
-
+            'responsavel_id' => $validated['responsavel_id'] ?? null,
+            'role' => null,
         ]);
 
         $role = Role::where('name', $validated['role'])->first();

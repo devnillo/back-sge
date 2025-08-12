@@ -132,6 +132,7 @@ class UpdatePessoaRequest extends FormRequest
 
             'escola_id' => 'integer|nullable',
             'secretaria_id' => 'integer|nullable',
+            'responsavel_id' => 'integer|nullable',
         ];
     }
 }

@@ -11,4 +11,5 @@ Route::prefix('/pessoas')->group(function () {
     Route::post('/update/{id}', [PessoasController::class, 'update']);
     Route::post('/login', [PessoasController::class, 'login']);
     Route::get('/{id}', [PessoasController::class, 'getById']);
+    Route::delete('/{id}', [PessoasController::class, 'delete']);
 });

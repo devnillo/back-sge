@@ -119,4 +119,16 @@ class Turma extends Model
     {
         return $this->hasMany(Pessoa::class);
     }
+    public function alunos(): HasMany
+    {
+        return $this->hasMany(Pessoa::class)->where('role', 'aluno');
+    }
+    public function professores(): HasMany
+    {
+        return $this->hasMany(Pessoa::class)->where('role', 'professor');
+    }
+    public function admin(): HasMany
+    {
+        return $this->hasMany(Pessoa::class)->where('role', 'admin');
+    }
 }

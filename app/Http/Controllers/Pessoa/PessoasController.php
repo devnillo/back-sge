@@ -6,13 +6,16 @@ use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePessoaRequest;
 use App\Http\Requests\UpdatePessoaRequest;
+use App\Http\Resources\PessoaResource;
 use App\Models\Pessoa;
+use App\Models\Responsavel;
 use App\Models\Role;
 use App\Services\PessoaService;
 use DateTime;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use PhpParser\Node\Stmt\TryCatch;
 
@@ -21,9 +24,38 @@ class PessoasController extends Controller
     public function register(StorePessoaRequest $request, PessoaService $pessoaService)
     {
         try {
+            if (!$this->isAuthenticated()) {
+                return ApiResponse::error('Usuário não autenticado!', 401);
+            }
+            if (!$this->hasCriarPessoaPermissao()) {
+                return ApiResponse::error('Sem permissão!', 401);
+            }
             $validated = $request->validated();
+            
             $numero = str_pad(mt_rand(0, 99999999), 7, '0', STR_PAD_LEFT);
             $validated['codigo_pessoa_fisica_sistema_proprio'] = $numero;
+            $responsavel = Responsavel::where('cpf_responsavel', $validated['cpf_responsavel'])->first();
+            if (!$responsavel) {
+                $responsavel = Responsavel::create([
+                    'nome_responsavel' => $validated['nome_responsavel'] ?? null,
+                    'sexo_responsavel' => $validated['sexo_responsavel'] ?? null,
+                    'cor_responsavel' => $validated['cor_responsavel'] ?? null,
+                    'nacionalidade_responsavel' => $validated['nacionalidade_responsavel'] ?? null,
+                    'cpf_responsavel' => $validated['cpf_responsavel'] ?? null,
+                    'data_nascimento_responsavel' => $validated['data_nascimento_responsavel']  ?? null,
+                    'naturalidade_responsavel' => $validated['naturalidade_responsavel'] ?? null,
+                    'endereco_responsavel' => $validated['endereco_responsavel'] ?? null,
+                    'telefone_responsavel' => $validated['telefone_responsavel'] ?? null,
+                    'email_responsavel' => $validated['email_responsavel'] ?? null,
+                    'escolaridade_responsavel' => $validated['escolaridade_responsavel'] ?? null,
+                    'parentesco_responsavel' => $validated['parentesco_responsavel']  ?? null,
+                ]);
+                $role = Role::where('name', 'responsavel')->first();
+                if ($role) {
+                    $responsavel->assignRole($role);
+                }
+            }
+            $validated['responsavel_id'] = $responsavel->id;
             $pessoa = $pessoaService->register($validated);
             return ApiResponse::success($pessoa, 'Pessoa cadastrada com sucesso', 201);
         } catch (ValidationException $e) {
@@ -33,13 +65,38 @@ class PessoasController extends Controller
     public function update(UpdatePessoaRequest $request, $id)
     {
         try {
+            if (!$this->hasEditarPessoaPermissao()) {
+                return ApiResponse::error('Sem permissão!', 401);
+            }
+            if (!$this->isAuthenticated()) {
+                return ApiResponse::error('Você não está autenticado', 401);
+            }
             $validated = $request->validated();
-            $pessoa = Pessoa::findOrFail($id); 
+            $pessoa = Pessoa::findOrFail($id);
+
+            if ($pessoa->cpf_responsavel) {
+                $responsavel = Responsavel::findOrFail($pessoa->responsavel_id);
+                $responsavel->update([
+                    'nome_responsavel' => $validated['nome_responsavel'] ?? $responsavel->nome_responsavel,
+                    'sexo_responsavel' => $validated['sexo_responsavel'] ?? $responsavel->sexo_responsavel,
+                    'cor_responsavel' => $validated['cor_responsavel'] ?? $responsavel->cor_responsavel,
+                    'nacionalidade_responsavel' => $validated['nacionalidade_responsavel'] ?? $responsavel->nacionalidade_responsavel,
+                    'cpf_responsavel' => $validated['cpf_responsavel'] ?? $responsavel->cpf_responsavel,
+                    'data_nascimento_responsavel' => $validated['data_nascimento_responsavel'] ?? $responsavel->data_nascimento_responsavel,
+                    'naturalidade_responsavel' => $validated['naturalidade_responsavel'] ?? $responsavel->naturalidade_responsavel,
+                    'endereco_responsavel' => $validated['endereco_responsavel'] ?? $responsavel->endereco_responsavel,
+                    'telefone_responsavel' => $validated['telefone_responsavel'] ?? $responsavel->telefone_responsavel,
+                    'email_responsavel' => $validated['email_responsavel'] ?? $responsavel->email_responsavel,
+                    'escolaridade_responsavel' => $validated['escolaridade_responsavel'] ?? $responsavel->escolaridade_responsavel,
+                    'parentesco_responsavel' => $validated['parentesco_responsavel'] ?? $responsavel->parentesco_responsavel,
+                ]);
+            }
+
 
             $pessoa->update([
                 'tipo_registro' => "30",
                 'codigo_escola_inep' => $validated['codigo_escola_inep'] ?? $pessoa->codigo_escola_inep,
-                'codigo_pessoa_fisica_sistema_proprio' => $pessoa->codigo_pessoa_fisica_sistema_proprio, 
+                'codigo_pessoa_fisica_sistema_proprio' => $pessoa->codigo_pessoa_fisica_sistema_proprio,
                 'identificacao_unica_inep' => $validated['identificacao_unica_inep'] ?? $pessoa->identificacao_unica_inep,
                 'numero_cpf' => $validated['numero_cpf'] ?? $pessoa->numero_cpf,
                 'nome_completo' => $validated['nome_completo'] ?? $pessoa->nome_completo,
@@ -114,7 +171,7 @@ class PessoasController extends Controller
                 'ano_conclusao_pos_graduacao_5' => $validated['ano_conclusao_pos_graduacao_5'] ?? $pessoa->ano_conclusao_pos_graduacao_5,
                 'tipo_pos_graduacao_6' => $validated['tipo_pos_graduacao_6'] ?? $pessoa->tipo_pos_graduacao_6,
                 'area_pos_graduacao_6' => $validated['area_pos_graduacao_6'] ?? $pessoa->area_pos_graduacao_6,
-                'ano_conclusao_pos_graduacao_6' => $validated['ano_conclusao_pos_graduacao_6'] ?? $pessoa->ano_conclusao_pos_graduacao_6,
+                'ano_conclusao_pos_graduacao_6' => $validated['ano_conclusao_6'] ?? $pessoa->ano_conclusao_pos_graduacao_6,
                 'nao_tem_pos_graduacao_concluida' => $validated['nao_tem_pos_graduacao_concluida'] ?? $pessoa->nao_tem_pos_graduacao_concluida,
                 'creche' => $validated['creche'] ?? $pessoa->creche,
                 'pre_escola' => $validated['pre_escola'] ?? $pessoa->pre_escola,
@@ -138,18 +195,20 @@ class PessoasController extends Controller
                 'endereco_eletronico_email' => $validated['endereco_eletronico_email'] ?? $pessoa->endereco_eletronico_email,
                 'escola_id' => $validated['escola_id'] ?? $pessoa->escola_id,
                 'secretaria_id' => $validated['secretaria_id'] ?? $pessoa->secretaria_id,
+                'responsavel_id' => $validated['responsavel_id'] ?? $pessoa->responsavel_id,
+                'turma_id' => $validated['turma_id'] ?? $pessoa->turma_id,
+                'role' => $validated['role'] ?? $pessoa->role,
             ]);
 
             return ApiResponse::success($pessoa, 'Pessoa atualizada com sucesso', 200);
         } catch (ModelNotFoundException $e) {
-            return ApiResponse::error('Pessoa não encontrada', 404);
+            return ApiResponse::error('Pessoa não encontrada!', 404);
         } catch (ValidationException $e) {
             return ApiResponse::error('Erro de validação', 422, $e->errors());
         } catch (\Exception $e) {
             return ApiResponse::error('Erro ao atualizar a pessoa', 500, $e->getMessage());
         }
     }
-
     public function login(Request $request)
     {
         try {
@@ -180,12 +239,62 @@ class PessoasController extends Controller
     public function getById($id)
     {
         try {
+            if (!$this->hasVerPessoaPermissao()) {
+                return ApiResponse::error('Sem permissão!', 401);
+            }
             $user = Pessoa::findOrFail($id);
-            return ApiResponse::success($user, 'Usuário encontrado com sucesso!');
+            return ApiResponse::success(new PessoaResource($user), 'Usuário encontrado com sucesso!');
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('O Usuário não existe!', 404);
         } catch (\Exception $e) {
-            return ApiResponse::error('Erro ao Buscar Usuário!');
+            return ApiResponse::error('Erro ao Buscar Usuário!' . $e->getMessage());
         }
+    }
+    public function delete($id)
+    {
+        DB::beginTransaction();
+        try {
+            if (!$this->hasExcluirPessoaPermissao()) {
+                return ApiResponse::error('Sem permissão!', 401);
+            }
+            $pessoa = Pessoa::findOrFail($id);
+            $responsavel = Responsavel::with('pessoa')->find($pessoa->responsavel_id);
+            if ($responsavel && $responsavel->pessoa()->count() == 0) {
+                $responsavel->delete();
+            }
+            $pessoa->delete();
+            DB::commit();
+            return ApiResponse::success($pessoa, 'Pessoa excluída com sucesso', 200);
+        } catch (ModelNotFoundException $e) {
+            DB::rollBack();
+            return ApiResponse::error('Pessoa não encontrada', 404);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return ApiResponse::error('Erro ao excluir a pessoa', 500, $e->getMessage());
+        }
+    }
+    private function hasCriarPessoaPermissao()
+    {
+        $user = Auth::guard('pessoas')->user();
+        return $user && $user->can('criar_usuarios');
+    }
+    private function hasVerPessoaPermissao()
+    {
+        $user = Auth::guard('pessoas')->user();
+        return $user && $user->can('ver_usuarios');
+    }
+    private function hasExcluirPessoaPermissao()
+    {
+        $user = Auth::guard('pessoas')->user();
+        return $user && $user->can('excluir_usuarios');
+    }
+    private function hasEditarPessoaPermissao()
+    {
+        $user = Auth::guard('pessoas')->user();
+        return $user && $user->can('editar_usuarios');
+    }
+    protected function isAuthenticated()
+    {
+        return Auth::guard('pessoas')->check();
     }
 }
